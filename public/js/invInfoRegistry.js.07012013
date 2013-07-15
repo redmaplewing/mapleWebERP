@@ -1,0 +1,660 @@
+$(function(){
+	//alert('purchaseRequest');
+	//定義頁面基本原素
+	var mainForm = $("#warehouseForm");//定義主要表單
+	var dialogDiv = $("#showWarehoustDetail");//定義主要彈跳視窗
+	var oper = mainForm.find('#oper');//定義主要表單oper欄位
+	var targetID =mainForm.find('#id');//定義主要表單id欄位
+	var targetTable;//定主目的資料庫表格
+	var mainTable = $("#mainWarehouse");//定義頁面主要Grid的表格
+	//定義頁面主要Grid的Div，因為僅供jqGrid使用，故回傳div的id字串
+	var mainListName = $("#warehouseList").attr('id');
+	//定義新增、刪除按扭
+	var addBtn = $("#addwh");
+	var delBtn = $("#delwh");
+	//定義主表格欄位
+	var gridColName = [
+		'Name/Location'
+		,'Status'
+		,'Employee No.'
+		,'First Name'
+		,'Last Name'
+		,'Gender'
+		,'Email Address'
+		,'Phone'
+	];
+	//定義主表格各欄位屬性設定
+	var gridColModel = [
+		{name:'name',index:'name',align:"left"}
+		,{name:'status',index:'status',align:"left"}
+		,{name:'employeeCode',index:'employeeCode',align:"left"}
+		,{name:'nameFirst',index:'nameFirst',align:"left"}
+		,{name:'nameLast',index:'nameLast',align:"left"}
+		,{name:'gender',index:'gender',align:"left"}
+		,{name:'email',index:'email',align:"left"}
+		,{name:'phone',index:'phone',align:"left"}
+	]
+	
+	//定義介面基本Tabs
+	$("#warehouseDetail").tabs();
+	//stock Tabs
+	$("#stockDetail").tabs();
+	//tools & Equipment Tabs
+	$("#toolsDetail").tabs();
+	//tools & Equipment Detail Tabs
+	$("#TEDetail").tabs();
+	//定義時間按扭
+	mainForm.find('.date').each(function(){
+		//alert($(this).attr('name'));
+		$(this).datepicker();
+		$(this).datepicker("option","dateFormat","yy-mm-dd");
+	});
+	//$("#purchasedDate").datepicker();
+	$("#TEDetailForm").find('.date').each(function(){
+		//alert($(this).attr('id'));
+		$(this).datepicker();
+		$(this).datepicker("option","dateFormat","yy-mm-dd");
+	});
+	//定義warehoust的Dialog
+	dialogDiv.dialog({
+		width:800
+		,autoOpen:false
+		,closeText:"close"
+	});
+	//定義Tools & Equipment Detail的Dialog
+	$("#TEDialog").dialog({
+		width:800
+		,autoOpen:false
+		,closeText:"close"
+	})
+	//倉庫新增
+	addBtn.click(function(){
+		$("#mode").html('Warehouse Information');
+		showFormDetail('add');
+	});
+	//項目新增
+	$("#addTEDetail").click(function(){
+		$("#TEModes").html('New Tool or Equipment');
+		showFormDetail('add',"",$("#TEDialog"));
+	});
+	//項目新增
+	$("#formAddTEDetail").click(function(){
+		$("#TEModes").html('New Tool or Equipment');
+		showFormDetail('add',"",$("#TEDialog"));
+	});
+		
+	//新增、編輯倉庫項目
+	mainForm.ajaxForm({
+		success:function(){		
+			mainTable.trigger("reloadGrid");
+			dialogDiv.dialog("close");
+			clearFormData(mainForm);				
+		}
+	});
+	
+	//新增、編輯工具、施備
+	$("#TEDetailForm").ajaxForm({
+		success:function(){
+			$("#workingTable").jqGrid("clearGridData", true);
+			$("#workingTable").jqGrid().setGridParam({url : base_url+'/getInventoryTool/'+$("#warehouseForm").find("#id").attr("value")});	
+			$("#workingTable").trigger("reloadGrid");
+			$("#TEDialog").dialog("close");
+			clearFormData($(this));				
+		}
+	});
+	
+	//清空表單
+	function clearFormData(tar){
+		//$(tar).get(0).reset();
+		var inputName = '';
+		tar.find('input').each(function(){
+			if($(this).attr('type') != 'submit' && $(this).attr('type') != 'reset'  
+				&& $(this).attr('name') != 'type' && $(this).attr('name') != 'managerID' && $(this).attr('type') != 'button' && $(this).attr('name') != 'warehouseID'){
+				$(this).attr('value','');
+				//inputName += $(this).attr('name')+"\n";//將清空欄位寫入驗證訊息
+			}
+			if($(this).attr('type') == 'file' && $(this).attr('name') == 'managerImg'){
+				//alert(localhost+'/images/unknown-person.jpg');
+				$(this).prev('img').attr('src',localhost+'/images/unknown-person.jpg')
+			}			
+		});
+		//alert(inputName);//驗證表單清空的執行
+		tar.find('select').each(function(){
+			//取消所有select的option的選取
+			$(this).find('option').each(function(){
+				$(this).attr('selected',false);
+			});
+			$(this).find('option').first().attr('selected',true);
+		});
+		//將select的第一項option設定預設選取
+		tar.find('textarea').each(function(){
+			$(this).text('');
+		});
+	}
+	$("#warehouseManagerID").change(function(){
+		//alert($(this).val());
+		employeeData($(this).val());
+	})
+	function employeeData(tar){
+		if(tar == '0'){
+			$("#managerGender").html(' ');
+			$("#managerPosition").html(' ');
+		}else{
+			$.ajax({
+				url:base_url+'/getEmployeeData/'
+				,type:'POST'
+				,data:"ID="+tar
+				,dataType:'json'
+				,async:false//非同步處理設定
+				//,beforeSend://驗證資料
+				,success:function(e){
+					$("#managerGender").html(e['gender']);
+					$("#managerPosition").html(e['position']);
+				}
+			})
+		}		
+	}
+	
+	//取得表單資料
+	function getFormData(tar,table,id){
+		var obj=null;//定義空的資料儲存陣列
+		var tarID = id;
+		$.ajax({
+			url:base_url+'/getFunctionData/'+table
+			,type:'POST'
+			,data:"ID="+tarID
+			,dataType:'json'
+			,async:false//非同步處理設定
+			//,beforeSend://驗證資料
+			,success:function(e){
+				obj = e;
+				var form = tar;
+				//設定功能的slider
+				form.find('.ui-slider').each(function(){
+					textBox = $(this).prev('input');
+					if(obj[textBox.attr('name')] != 'undefined'){
+						$(this).slider('value',obj[textBox.attr('name')]);
+					};
+				});
+
+				form.find('input').each(function(){
+					//alert($(this).attr('name'));
+					if($(this).attr('type') == 'file'){
+						//alert(obj[$(this).attr('name')]);
+						$(this).prev('img').attr('src',obj[$(this).attr('name')]);
+					};
+					if(obj[$(this).attr('name')] != 'undefined'){
+						$(this).attr('value',obj[$(this).attr('name')]);
+					}
+				});
+				
+				var selectBox = form.find('select');
+				
+				
+				selectBox.each(function(){
+					var key = $(this).attr('name');
+					$(this).find('option').each(function(){
+						$(this).attr('selected',false);
+						if($(this).attr('value') == obj[key]){
+							$(this).attr('selected',true);
+						}
+					});
+				});
+				
+
+				form.find('textarea').each(function(){
+					if(obj[$(this).attr('name')] != 'undefined'){
+						$(this).text('');
+						$(this).text(obj[$(this).attr('name')]);
+					}
+				})
+				form.find("#id").attr('value',tarID);
+				
+			}
+			/*,error:
+			,data:tar*/
+		})
+	}
+	
+	function resetTEData(ids){
+		$("#workingTable").jqGrid("clearGridData", true);
+		$("#repairTable").jqGrid("clearGridData", true);
+		$("#calibrationTable").jqGrid("clearGridData", true);
+		$("#disposedTable").jqGrid("clearGridData", true);
+		$("#lostTable").jqGrid("clearGridData", true);
+		$("#workingTable").jqGrid().setGridParam({url : base_url+'/getInventoryTool/'+ids});		
+		/* 
+		$("#repairTable").jqGrid().setGridParam({url : base_url+'/inventoryCondition/1/'+ids});		
+		$("#calibrationTable").jqGrid().setGridParam({url : base_url+'/inventoryCondition/1/'+ids});		
+		$("#disposedTable").jqGrid().setGridParam({url : base_url+'/inventoryCondition/1/'+ids});
+		$("#lostTable").jqGrid().setGridParam({url : base_url+'/inventoryCondition/1/'+ids});
+		*/
+		$("#workingTable").trigger("reloadGrid");
+		$("#repairTable").trigger("reloadGrid");
+		$("#calibrationTable").trigger("reloadGrid");
+		$("#disposedTable").trigger("reloadGrid");
+		$("#lostTable").trigger("reloadGrid");
+	}
+	
+	//顯示表單資料
+	function showFormDetail(type,ids,tar){
+		if(typeof ids == 'undefined'){
+			ids=0;
+		}
+		if(typeof tar == 'undefined'){
+			tar = dialogDiv;
+			if(type == 'edit'){
+				$("#TEDetailForm").find("#warehouseID").attr('value',ids);
+				//alert($("#TEDetailForm").find("#warehouseID").attr('value'));
+			}
+		}
+		mainForm = tar.find('form');
+		oper = mainForm.find('#oper');
+		targetID = mainForm.find("#id");
+		switch(tar.attr('id')){
+			case 'TEDialog':
+				targetTable = 'item';
+			break;
+			case 'showWarehoustDetail':
+			default:
+				targetTable = 'warehouse';
+			break;
+		}
+		switch(type){				
+			case 'edit':				
+				clearFormData(mainForm);
+				oper.attr('value','edit');
+				targetID.attr('value',ids)
+				getFormData(mainForm,targetTable,ids);
+				$("#inventoryTable").jqGrid("clearGridData", true);
+				$("#needsTable").jqGrid("clearGridData", true);
+				$("#inventoryTable").jqGrid().setGridParam({url : base_url+'/inventoryCondition/0/'+ids});		
+				$("#needsTable").jqGrid().setGridParam({url : base_url+'/inventoryCondition/1/'+ids});		
+				$("#inventoryTable").trigger("reloadGrid");
+				$("#needsTable").trigger("reloadGrid");
+				resetTEData(ids);
+				employeeData($("#warehouseManagerID").val());
+				mainForm.get(0).reset();
+				tar.dialog("open");
+			break;
+			case 'add':
+			default:					
+				clearFormData(tar.find('form'));
+				if(tar.find('#form').attr('id') == mainForm.attr('id')){
+					employeeData('0');
+				}
+				tar.find('form').find('#oper').attr('value','add');
+				tar.find('form').get(0).reset();
+				tar.dialog("open");
+			break;
+		}
+	};
+	//編輯、檢視倉庫資料
+	$("#editwh").click(function(){
+		var gr = jQuery("#mainWarehouse").jqGrid('getGridParam','selrow');
+		if( gr != null ){
+			//alert(gr);
+			showFormDetail('edit',gr);
+		}else{
+			alert("Please Select Row")
+		};
+	})
+	//刪除倉庫
+	$("#delwh").click(function(){
+		var gr = jQuery("#mainWarehouse").jqGrid('getGridParam','selrow');
+		if( gr != null ) jQuery("#mainWarehouse").jqGrid('delGridRow',gr,{reloadAfterSubmit:false});
+		else alert("Please Select Row to delete!");
+	})
+		
+	//主頁面jqGrid
+	mainTable.jqGrid({
+		url:base_url+'/sendWarehouseData',
+		datatype: "json",
+		colNames:gridColName,
+		colModel:gridColModel,
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: mainListName,
+		sortname: 'code',
+		viewrecords: true,
+		sortorder: "asc",
+		width:765,
+		height:250,
+		caption:"Warehoust Information",
+		onSelectRow: function(id) {
+			//alert(id);
+			//showFormDetail('edit',id);
+		},
+		editurl:base_url+"/modify/"
+	});
+	mainTable.jqGrid('navGrid',mainListName,
+		{edit:false,add:false,del:true,search:false,view:false},
+		{}, //edit options
+		{}, // add options
+		{reloadAfterSubmit:true}, // del options
+		{}
+	);
+	mainTable.jqGrid('setGroupHeaders',{
+		useColSpanStyle:true
+		,groupHeaders:[
+			{startColumnName:gridColModel[3]['name'],numberOfColumns:2,titleText:'Slock Controller'}
+		]
+	});
+	var stockColName = [
+		"Product Code"
+		,"Product Name"
+		,"Description"
+		,"On Hand"
+		,"Allocated"
+		,"Available"
+		,"On Order"
+		,"Current Level"
+		,"Minimum Level"
+		,"Location(Rack #)"
+	];
+	var strckColModel = [
+		{name:'code',index:'code',align:"left"}
+		,{name:'name',index:'name',align:"left"}
+		,{name:'description',index:'description',align:"left"}
+		,{name:'onHand',index:'onHand',align:"left"}
+		,{name:'allocated',index:'allocated',align:"left"}
+		,{name:'available',index:'available',align:"left"}
+		,{name:'onOrder',index:'onOrder',align:"left"}
+		,{name:'currentLevel',index:'currentLevel',align:"left"}
+		,{name:'minimumLevel',index:'minimumLevel',align:"left"}
+		,{name:'location',index:'location',align:"left"}
+	];
+	//stockInventory jqGrid
+	$("#inventoryTable").jqGrid({
+		//url:base_url+'/inventoryCondition/0',
+		datatype: "json",
+		colNames:stockColName,
+		colModel:strckColModel,
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: inventoryList,
+		sortname: 'code',
+		viewrecords: true,
+		sortorder: "asc",
+		width:720,
+		height:250,
+		editurl:base_url+"/modify/"
+	});
+	//stock Needs Restocking jqGrid
+	$("#needsTable").jqGrid({
+		//url:base_url+'/inventoryCondition/1',
+		datatype: "json",
+		colNames:stockColName,
+		colModel:strckColModel,
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: needsList,
+		sortname: 'code',
+		viewrecords: true,
+		sortorder: "asc",
+		width:720,
+		height:250,
+		editurl:base_url+"/modify/"
+	});
+	//stock Fast-Moving jqGrid
+	$("#fastTable").jqGrid({
+		//url:base_url+'/sendServiceData',
+		datatype: "json",
+		colNames:stockColName,
+		colModel:strckColModel,
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: fastList,
+		sortname: 'code',
+		viewrecords: true,
+		sortorder: "asc",
+		width:720,
+		height:250,
+		editurl:base_url+"/modify/"
+	});
+	var toolsColName = [
+		"code"
+		,"Tools & Eequip.Name"
+		,"Description"
+		,"Usage"
+		,"Date Purchased"
+		,"Unit Cost"
+		,"Warranty Period"
+		,"Calibration Period"
+		,"Useful Life"
+		,"Disposal Method"
+	];
+	var toolsColModel = [
+		{name:'code',index:'code',align:"left"}
+		,{name:'name',index:'name',align:"left"}
+		,{name:'description',index:'description',align:"left"}
+		,{name:'usage',index:'usage',align:"left"}
+		,{name:'purchaseDate',index:'purchaseDate',align:"left"}
+		,{name:'unitCost',index:'unitCost',align:"left"}
+		,{name:'warrantyPeriod',index:'warrantyPeriod',align:"left"}
+		,{name:'calibrationPeriod',index:'calbrationPeriod',align:"left"}
+		,{name:'usefulLife',index:'usefulLife',align:"left"}
+		,{name:'disposalMethod',index:'disposalMethod',align:"left"}
+	];
+	//編輯、檢視工具資料
+	$("#editTEDetail").click(function(){
+		var gr = jQuery("#workingTable").jqGrid('getGridParam','selrow');
+		if( gr != null ){
+			//alert(gr);
+			showFormDetail('edit',gr,$("#TEDialog"));
+		}else{
+			alert("Please Select Row")
+		};
+	})
+	//刪除工具
+	$("#delTEDetail").click(function(){
+		var gr = jQuery("#workingTable").jqGrid('getGridParam','selrow');
+		if( gr != null ) jQuery("#workingTable").jqGrid('delGridRow',gr,{reloadAfterSubmit:false});
+		else alert("Please Select Row to delete!");
+	})
+	//tools Working Properly jqGrid
+	$("#workingTable").jqGrid({
+		//url:base_url+'/sendServiceData',
+		datatype: "json",
+		colNames:toolsColName,
+		colModel:toolsColModel,
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: workingList,
+		sortname: 'code',
+		viewrecords: true,
+		sortorder: "asc",
+		width:720,
+		height:250,
+		onSelectRow: function(id) {
+			//alert(id);
+			//showFormDetail('edit',id,$("#TEDialog"));
+		},
+		editurl:base_url+"/modify/"
+	});
+	//tools UnderRepaio jqGrid
+	$("#repairTable").jqGrid({
+		//url:base_url+'/sendServiceData',
+		datatype: "json",
+		colNames:toolsColName,
+		colModel:toolsColModel,
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: repairList,
+		sortname: 'code',
+		viewrecords: true,
+		sortorder: "asc",
+		width:720,
+		height:250,
+		editurl:base_url+"/modify/"
+	});
+	//tools Sent for Calibration jqGrid
+	$("#calibrationTable").jqGrid({
+		//url:base_url+'/sendServiceData',
+		datatype: "json",
+		colNames:toolsColName,
+		colModel:toolsColModel,
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: calibrationList,
+		sortname: 'code',
+		viewrecords: true,
+		sortorder: "asc",
+		width:720,
+		height:250,
+		editurl:base_url+"/modify/"
+	});
+	//tools Disposed jqGrid
+	$("#disposedTable").jqGrid({
+		//url:base_url+'/sendServiceData',
+		datatype: "json",
+		colNames:toolsColName,
+		colModel:toolsColModel,
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: disposedList,
+		sortname: 'code',
+		viewrecords: true,
+		sortorder: "asc",
+		width:720,
+		height:250,
+		editurl:base_url+"/modify/"
+	});
+	//tools Lost jqGrid
+	$("#lostTable").jqGrid({
+		//url:base_url+'/sendServiceData',
+		datatype: "json",
+		colNames:toolsColName,
+		colModel:toolsColModel,
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: lostList,
+		sortname: 'code',
+		viewrecords: true,
+		sortorder: "asc",
+		width:720,
+		height:250,
+		editurl:base_url+"/modify/"
+	});
+	//tools & equipment Detail
+	//usage jqGrid
+	$("#detailUsageTable").jqGrid({
+		//url:base_url+'/sendServiceData',
+		datatype: "json",
+		colNames:[
+			"Date"
+			,"Borrowed By"
+			,"Date"
+			,"Returned By"
+			,"Date"
+			,"Mechanic's Note"
+		],
+		colModel:[
+			{name:'borrowedDate',index:'borrowedDate',align:"left"}
+			,{name:'borrowed',index:'borrowed',align:"left"}
+			,{name:'returnedDate',index:'returnedDate',align:"left"}
+			,{name:'return',index:'return',align:"left"}
+			,{name:'mechanicDate',index:'machanicDate',align:"left"}
+			,{name:'machanic',index:'machanic',align:"left"}
+		],
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: detailUsageList,
+		sortname: 'borrowedDate',
+		viewrecords: true,
+		sortorder: "asc",
+		width:720,
+		height:250,
+		editurl:base_url+"/modify/"
+	});
+	$("#detailUsageTable").jqGrid('setGroupHeaders',{
+		useColSpanStyle:true
+		,groupHeaders:[
+			{startColumnName:"borrowedDate",numberOfColumns:2,titleText:'Borrowed'}
+			,{startColumnName:"returnedDate",numberOfColumns:2,titleText:'Returned'}
+			,{startColumnName:"mechanicDate",numberOfColumns:2,titleText:'Testing Result'}
+		]
+	});
+	//repair jqGrid
+	$("#detailRepairTable").jqGrid({
+		//url:base_url+'/sendServiceData',
+		datatype: "json",
+		colNames:[
+			"Date Sent"
+			,"Reason"
+			,"Repaired by"
+			,"Date Received"
+			,"Ref.(LPO#)"
+			,"Amt. Spent"
+			,"Date"
+			,"Mchanic's Note"
+		],
+		colModel:[
+			{name:'sentDate',index:'sentDate',align:"left"}
+			,{name:'reason',index:'reason',align:"left"}
+			,{name:'repaired',index:'repaired',align:"left"}
+			,{name:'receivedDate',index:'receivedDate',align:"left"}
+			,{name:'ref',index:'ref',align:"left"}
+			,{name:'amtSpent',index:'amtSpent',align:"left"}
+			,{name:'testDate',index:'testDate',align:"left"}
+			,{name:'mechanicNote',index:'mechanicNote',align:"left"}
+		],
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: detailRepairList,
+		sortname: 'sentDate',
+		viewrecords: true,
+		sortorder: "asc",
+		width:720,
+		height:250,
+		editurl:base_url+"/modify/"
+	});
+	$("#detailRepairTable").jqGrid('setGroupHeaders',{
+		useColSpanStyle:true
+		,groupHeaders:[
+			{startColumnName:"sentDate",numberOfColumns:6,titleText:'Repair'}
+			,{startColumnName:"testDate",numberOfColumns:2,titleText:'Testing Result'}
+		]
+	});
+	//Calibration jqGrid
+	$("#detailCalibTable").jqGrid({
+		//url:base_url+'/sendServiceData',
+		datatype: "json",
+		colNames:[
+			"Calib. Date"
+			,"Calibrated by"
+			,"Calib. Result"
+			,"Date Received"
+			,"Amt. Spent"
+			,"Ref.(LPO#)"
+			,"Date"
+			,"Mechanic's Note"
+		],
+		colModel:[
+			{name:'date',index:'date',align:"left"}
+			,{name:'calibrated',index:'calibrated',align:"left"}
+			,{name:'result',index:'result',align:"left"}
+			,{name:'dateReceived',index:'dateReceived',align:"left"}
+			,{name:'amtSpent',index:'amtSpent',align:"left"}
+			,{name:'ref',index:'ref',align:"left"}
+			,{name:'testDate',index:'testDate',align:"left"}
+			,{name:'mechanicNote',index:'mechanicNote',align:"left"}
+		],
+		rowNum:20,
+		rowList:[20,40,60],
+		pager: detailCalibList,
+		sortname: 'code',
+		viewrecords: true,
+		sortorder: "asc",
+		width:720,
+		height:250,
+		editurl:base_url+"/modify/"
+	});
+	$("#detailCalibTable").jqGrid('setGroupHeaders',{
+		useColSpanStyle:true
+		,groupHeaders:[
+			{startColumnName:"date",numberOfColumns:6,titleText:'Calibration'}
+			,{startColumnName:"testDate",numberOfColumns:2,titleText:'Testing Result'}
+		]
+	});
+})

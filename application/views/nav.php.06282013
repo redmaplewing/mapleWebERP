@@ -1,0 +1,22 @@
+<nav>
+<div id="menuList">
+<?php foreach($this->session->userdata('menuType') as $key => $val):?>
+	<h2><?php echo $val['name'];?></h2>
+	<div>
+		<?php foreach($val['menulist'] as $k => $v){
+			
+			if($v['link'] != ""){
+				echo "●".anchor($v['link']."/index/".$v['id'],$v['name'])."<br />";
+			}else{
+				echo $v['name']."<br />";
+			}			
+		}?>
+	</div>
+<?php endforeach;?>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$("#menuList").accordion();		
+	});
+</script>
+</nav>
