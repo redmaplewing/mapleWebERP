@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://unisun.localhost/';
+$config['base_url']	= 'http://mapleWebERP.localhost/';
 
 /*
 |--------------------------------------------------------------------------
