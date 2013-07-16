@@ -267,19 +267,6 @@ class AttRecord extends MY_Controller {
         //$this->session->set_userdata('thisAjaxQuery',$result);//驗證Query資料
     }
 
-    //查詢休假項目詳細資料並回傳
-    public function getEmployeeLeaveSubData($type = '1') {
-        $table = "employeeAttendance";
-        $tableID = $table . "ID";
-        $sqlString = "SELECT * FROM %s WHERE %s='%s' ";
-        $sqlString = sprintf($sqlString, $table, $tableID, $this->input->post('ID'));
-        $row = $this->db->query($sqlString);
-        $result = $row->row_array();
-        echo json_encode($result);
-        //$this->session->set_userdata('thisAjaxPost',$this->input->post());//驗證post資料
-        //$this->session->set_userdata('thisAjaxQuery',$result);//驗證Query資料
-    }
-
     //資料庫操作
     public function modify($tar = '') {
         //echo "this is post page";
