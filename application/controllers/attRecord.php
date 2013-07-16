@@ -97,31 +97,55 @@ class AttRecord extends MY_Controller {
     }
 
     //取得員工出缺勤資料
-    public function sendEmployeeLeaveData($id = '0', $month = '0') {
+    public function sendEmployeeLeaveData($type = '1', $id = '0', $month = '0') {
         //取得服務資料
         $infoData = array();
-        if ($month == '') {
-            
-        }
+        /* if ($month == '0') {
+
+          }; */
+
         $table = $this->tableName['linkTable']['employeeAttendance'];
         $tableID = $table . "ID";
-        $sqlString = "SELECT * FROM %s %s ORDER BY %s ASC";
+        $sqlString = "SELECT * FROM %s WHERE employeeID='%s' %s ORDER BY %s ASC";
         $subString = "";
+        if ($type == '2') {
+            var_dump($this->input->get_post());
+            $leaveId = $this->input->post('id');
+            $subString = sprintf(" AND %s='%s'", $tableID, $leaveId);
+            echo sprintf($sqlString, $table,$id, $subString, $tableID);
+        }
         $infoData['tableName'] = $table;
-        $infoData['baseSql'] = sprintf($sqlString, $table, $subString, $tableID);
-        //echo sprintf($sqlString,$table,$type,$tableID);
+        $infoData['baseSql'] = sprintf($sqlString, $table,$id, $subString, $tableID);
+        //echo sprintf($sqlString, $table, $type, $tableID);
         $infoData['numLimit'] = 20;
         $infoData['page'] = $this->input->get('page') == "" ? 1 : $this->input->get('page');
-        $infoData['column'] = array(
-            "month"
-            , "day"
-            , "hour"
-            , "dayOff"
-            , "signCheck"
-            , "hrDeptCheck"
-            , "checked"
-            , "approved"
-        );
+        switch ($type) {
+            case '2':
+                $infoData['column'] = array(
+                    "unpaidLeave"
+                    , "sickLeave"
+                    , "vistLeave"
+                    , "matemityLeave"
+                    , "marriageLeave"
+                    , "beravementLeave"
+                );
+                break;
+            case '1':
+            default:
+                $infoData['column'] = array(
+                    "month"
+                    , "day"
+                    , "hour"
+                    , "dayOff"
+                    , "signCheck"
+                    , "hrDeptCheck"
+                    , "checked"
+                    , "approved"
+                );
+                break;
+        }
+
+
 
 
         $result = $this->returnGridData($infoData);
@@ -174,9 +198,6 @@ class AttRecord extends MY_Controller {
                     case "day":
                     case "hour":
                         $time = array();
-
-
-
                         $time['month'] = idate("m", strtotime($row->startDay));
                         $time['day'] = idate("d", strtotime($row->startDay));
                         $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
@@ -186,6 +207,49 @@ class AttRecord extends MY_Controller {
                         $data = $row->startDay . " to <br />"
                                 . $row->endDay . "<br /> Total:"
                                 . (idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay))) . "Hour";
+                        break;
+                    case "unpaidLeave"://事假=>1
+                    case "sickLeave"://病假=>2
+                    case "vistLeave"://公出=>3
+                    case "matemityLeave"://產假=>4
+                    case "marriageLeave"://婚假=>5
+                    case "beravementLeave"://喪假=>6
+                        //設計一個function回傳各記錄中leaveType的時數
+                        $hour = "";
+                        switch ($val) {
+                            case 'unpaid':
+                                if ($row->leaveType == '1') {
+                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
+                                }
+                                break;
+                            case 'sick':
+                                if ($row->leaveType == '2') {
+                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
+                                }
+                                break;
+                            case 'vist':
+                                if ($row->leaveType == '3') {
+                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
+                                }
+                                break;
+                            case 'metemity':
+                                if ($row->leaveType == '4') {
+                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
+                                }
+                                break;
+                            case 'marriage':
+                                if ($row->leaveType == '5') {
+                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
+                                }
+                                break;
+                            case 'beravement':
+                                if ($row->leaveType == '6') {
+                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
+                                }
+                                break;
+                        }
+
+                        $data = $hour;
                         break;
                     case "employmentWorkDay":
                     case "employmentDayWork":

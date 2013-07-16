@@ -256,6 +256,8 @@ $(function() {
     //Request主頁面jqGrid
     function makeGrid(tarTable, tarDiv, type, colName, colModel) {
         var targetUrl = "";
+        var subSet = "";
+        var subGridModel = "";
         if (typeof colName == 'undefined') {
             colName = gridColName;
         }
@@ -269,12 +271,28 @@ $(function() {
         }
         switch (type) {
             case '2':
-                if (id != '') {
-                    targetUrl = '';
-                }
+                subSet = {
+                    'subGrid': true
+                            , 'subGridUrl': base_url + '/sendEmployeeLeaveData/' + '2'
+                };
+                subGridModel = [{
+                        name: ["Unpaid Leave"
+                                    , "Sick Leave"
+                                    , "Visit Leave"
+                                    , "Matemity Leave"
+                                    , "Marriage Leave"
+                                    , "Breavement Leave"
+                        ]
+                    }];
+                //console.log(subSet);
                 break;
             case '1':
             default:
+                subSet = {
+                    'subGrid': false
+                            , 'subGridUrl': ''
+                };
+                subGridMode = '';
                 targetUrl = base_url + '/sendAttRecordData/';
                 break;
         }
@@ -292,47 +310,63 @@ $(function() {
             width: 765,
             height: 250,
             onSelectRow: function(id) {
-                if (type == '1') {
-                    $("#employeeLeaveTable").jqGrid("clearGridData", true);
-                    var employeeData = "";
-                    var gender = "";
-                    employeeData = getEmployeeData(id);
-                    //console.log(employeeData);
-                    $("#employeeName").html(employeeData['nameFirst'] + employeeData['nameLast']);
-                    switch (employeeData['Gender']) {
-                        case '2':
-                            gender = 'Female';
-                            break;
-                        case '1':
-                            gender = 'Male';
-                            break;
-                        default:
-                            gender = '';
-                            break;
-                    }
-                    $("#employeeGender").html(gender);
-                    $("#employeeNo").html(employeeData['emplyoeeNo']);
-                    //$("#employeeDepartment").html(employeeData['name']);
-                    $("#employeePosition").html(employeeData['position']);
-                    $("#employeeEmploymentDate").html(employeeData['employmentDate']);
-                    showEmployeeLeave({employeeID: id});
+                switch (type) {
+                    case '2':
+                        break;
+                    case '1':
+                    default:
+                        $("#employeeLeaveTable").jqGrid("clearGridData", true);
+                        var employeeData = "";
+                        var gender = "";
+                        employeeData = getEmployeeData(id);
+                        //console.log(employeeData);
+                        $("#employeeName").html(employeeData['nameFirst'] + employeeData['nameLast']);
+                        switch (employeeData['Gender']) {
+                            case '2':
+                                gender = 'Female';
+                                break;
+                            case '1':
+                                gender = 'Male';
+                                break;
+                            default:
+                                gender = '';
+                                break;
+                        }
+                        $("#employeeGender").html(gender);
+                        $("#employeeNo").html(employeeData['emplyoeeNo']);
+                        //$("#employeeDepartment").html(employeeData['name']);
+                        $("#employeePosition").html(employeeData['position']);
+                        $("#employeeEmploymentDate").html(employeeData['employmentDate']);
+                        showEmployeeLeave({employeeID: id});//顯示Employee Leave的資料
+                        break;
                 }
             },
+            subGrid: subSet['subGrid'],
+            subGridUrl: subSet['subGridUrl'],
+            subGridModel: subGridModel,
             editurl: base_url + "/modify/"
         });
+        /*
+         console.log(tarTable.getGridParam('subGrid'));
+         console.log(tarTable.getGridParam('subGridUrl'));
+         console.log(tarTable.getGridParam('subGridModel'));
+         */
     }
 
     //展示員工出缺勤記錄Employee Leave
     function showEmployeeLeave(param) {
+        if (typeof param['type'] === 'undefined') {
+            param['type'] = '1';
+        }
         //console.log(param);
-        var targetUrl = base_url + '/sendEmployeeLeaveData/' + param['employeeID'] + '/' + param['month'];
+        var targetUrl = base_url + '/sendEmployeeLeaveData/' + param['type'] + '/' + param['employeeID'] + '/' + param['month'];
         $("#employeeLeaveTable").jqGrid("clearGridData", true);
         $("#employeeLeaveTable").jqGrid('setGridParam', {url: targetUrl});
         $("#employeeLeaveTable").trigger('reloadGrid');
     }
 
     function getEmployeeData(id) {
-        var result = ""
+        var result = "";
         $.ajax({
             url: base_url + '/getEmployeeData'
                     , type: 'POST'
@@ -343,7 +377,7 @@ $(function() {
                 //console.log(e);
                 result = e;
             }
-        })
+        });
         //console.log(result);
         return result;
     }
@@ -364,12 +398,21 @@ $(function() {
     });
 
     //設定Employee Leave的字表格
-    function setSubGrid(id) {
-        var targetUrl = base_url + '/getEmployeeLeaveSubData/' + id;
+    function setSubGrid() {
+
+        var targetUrl = base_url + '/sendEmployeeLeaveData/' + '2';
+        //console.log(targetUrl);
         $("#employeeLeaveTable").jqGrid("setGridParam", {subGrid: true});
         $("#employeeLeaveTable").jqGrid("setGridParam", {subGridUrl: targetUrl});
-        $("#employeeLeaveTable").jaGrid("setGridParam", {subGridModel: [{
-                    name: {}
+        $("#employeeLeaveTable").jqGrid("setGridParam", {subGridModel: [{
+                    name: [
+                        "Unpaid Leave"
+                                , "Sick Leave"
+                                , "Visit Leave"
+                                , "Matemity Leave"
+                                , "Marriage Leave"
+                                , "Breavement Leave"
+                    ]
                 }]
         });
     }
