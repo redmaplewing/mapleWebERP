@@ -102,12 +102,13 @@ class MY_Controller extends CI_Controller
 		
 		//登入驗證
 		//07052013會有判斷失準的問題，先移除
-		/*
+        //07172013不啟動會有讀資料的異常重新啟用
+		
 		if(!$this->session->userdata('logined')){
 			echo "<script>alert('".$this->lang->line('log_error')."');</script>";
 			echo "<script>location.href = '".base_url()."';</script>";
 		}
-		*/
+		
 		//設定語言參數
 		$langType = array(
 			"en_US" => $this->lang->line('lang_enUS'),

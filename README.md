@@ -20,3 +20,7 @@ attrecord subgrid
 
 07162013
 attrecord 月份控制未完成
+
+07172013
+調整My_Controler的設定(重新開啟登入判斷)
+attrecord的sub Grid仍無法運作，計劃分開處理
