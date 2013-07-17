@@ -106,16 +106,16 @@ class AttRecord extends MY_Controller {
 
         $table = $this->tableName['linkTable']['employeeAttendance'];
         $tableID = $table . "ID";
-        $sqlString = "SELECT * FROM %s WHERE employeeID='%s' %s ORDER BY %s ASC";
-        $subString = "";
+        $sqlString = "SELECT * FROM %s %s ORDER BY %s ASC";
+        $subString = sprintf(" WHERE employeeID='%s'",$id);
         if ($type == '2') {
-            var_dump($this->input->get_post());
-            $leaveId = $this->input->post('id');
-            $subString = sprintf(" AND %s='%s'", $tableID, $leaveId);
-            echo sprintf($sqlString, $table,$id, $subString, $tableID);
+            //var_dump($this->input->get());
+            $leaveId = $this->input->get('id');
+            $subString = sprintf(" WHERE %s='%s'", $tableID, $leaveId);
+            //echo sprintf($sqlString, $table, $subString, $tableID);
         }
         $infoData['tableName'] = $table;
-        $infoData['baseSql'] = sprintf($sqlString, $table,$id, $subString, $tableID);
+        $infoData['baseSql'] = sprintf($sqlString, $table, $subString, $tableID);
         //echo sprintf($sqlString, $table, $type, $tableID);
         $infoData['numLimit'] = 20;
         $infoData['page'] = $this->input->get('page') == "" ? 1 : $this->input->get('page');
