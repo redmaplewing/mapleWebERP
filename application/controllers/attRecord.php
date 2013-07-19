@@ -107,7 +107,7 @@ class AttRecord extends MY_Controller {
         $table = $this->tableName['linkTable']['employeeAttendance'];
         $tableID = $table . "ID";
         $sqlString = "SELECT * FROM %s %s ORDER BY %s ASC";
-        $subString = sprintf(" WHERE employeeID='%s'",$id);
+        $subString = sprintf(" WHERE employeeID='%s'", $id);
         if ($type == '2') {
             //var_dump($this->input->get());
             $leaveId = $this->input->get('id');
@@ -119,35 +119,17 @@ class AttRecord extends MY_Controller {
         //echo sprintf($sqlString, $table, $type, $tableID);
         $infoData['numLimit'] = 20;
         $infoData['page'] = $this->input->get('page') == "" ? 1 : $this->input->get('page');
-        switch ($type) {
-            case '2':
-                $infoData['column'] = array(
-                    "unpaidLeave"
-                    , "sickLeave"
-                    , "vistLeave"
-                    , "matemityLeave"
-                    , "marriageLeave"
-                    , "beravementLeave"
-                );
-                break;
-            case '1':
-            default:
-                $infoData['column'] = array(
-                    "month"
-                    , "day"
-                    , "hour"
-                    , "dayOff"
-                    , "signCheck"
-                    , "hrDeptCheck"
-                    , "checked"
-                    , "approved"
-                );
-                break;
-        }
-
-
-
-
+        $infoData['column'] = array(
+            "month"
+            , "day"
+            , "hour"
+            , "dayOff"
+            , "leaveType"
+            , "signCheck"
+            , "hrDeptCheck"
+            , "checked"
+            , "approved"
+        );
         $result = $this->returnGridData($infoData);
         //var_dump($result);
         echo json_encode($result);
@@ -204,52 +186,31 @@ class AttRecord extends MY_Controller {
                         $data = $time[$val];
                         break;
                     case "dayOff":
-                        $data = $row->startDay . " to <br />"
-                                . $row->endDay . "<br /> Total:"
-                                . (idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay))) . "Hour";
+                        $data = $row->startDay. "<br /> to <br />" .$row->endDay . "<br />";
                         break;
-                    case "unpaidLeave"://事假=>1
-                    case "sickLeave"://病假=>2
-                    case "vistLeave"://公出=>3
-                    case "matemityLeave"://產假=>4
-                    case "marriageLeave"://婚假=>5
-                    case "beravementLeave"://喪假=>6
-                        //設計一個function回傳各記錄中leaveType的時數
-                        $hour = "";
-                        switch ($val) {
-                            case 'unpaid':
-                                if ($row->leaveType == '1') {
-                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
-                                }
+                    case "leaveType":
+                        $leaveType = "";
+                        switch ($row->leaveType) {
+                            case '1'://Unpaid Leave事假
+                                $leaveType = 'Unpaid Leave';
                                 break;
-                            case 'sick':
-                                if ($row->leaveType == '2') {
-                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
-                                }
+                            case '2'://Sick Leave病假
+                                $leaveType = 'Sick Leave';
                                 break;
-                            case 'vist':
-                                if ($row->leaveType == '3') {
-                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
-                                }
+                            case '3'://Visit Leave公出
+                                $leaveType = 'Visit Leave';
                                 break;
-                            case 'metemity':
-                                if ($row->leaveType == '4') {
-                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
-                                }
+                            case '4'://Matemity Leave產假
+                                $leaveType = 'Matemity Leave';
                                 break;
-                            case 'marriage':
-                                if ($row->leaveType == '5') {
-                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
-                                }
+                            case '5'://Marriage Leave婚假
+                                $leaveType = 'Marriage Leave';
                                 break;
-                            case 'beravement':
-                                if ($row->leaveType == '6') {
-                                    $hour = $time['hour'] = idate("H", strtotime($row->endDay)) - idate("H", strtotime($row->startDay));
-                                }
-                                break;
+                            case '6'://Bereavment Leave喪假
+                                $leaveType = 'Bereavment Leave';
+                                break;                            
                         }
-
-                        $data = $hour;
+                        $data = $leaveType;
                         break;
                     case "employmentWorkDay":
                     case "employmentDayWork":

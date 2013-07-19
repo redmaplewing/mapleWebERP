@@ -230,6 +230,7 @@ $(function() {
                 , 'Day'
                 , 'Hours'
                 , 'Day off'
+                , 'Leave Type'
                 , 'Employee Signature'
                 , 'Admin/HR Dept'
                 , 'Checked by'
@@ -241,6 +242,7 @@ $(function() {
         , {name: 'day', index: 'day', align: "left"}
         , {name: 'hour', index: 'hour', align: "left"}
         , {name: 'dayOff', index: 'dayOff', align: "left"}
+        , {name: 'leaveType', index: 'leaveType', align: "left"}
         , {name: 'signCheck', index: 'signCheck', align: "left"}
         , {name: 'hrDeptCheck', index: 'hrDeptCheck', align: "left"}
         , {name: 'check', index: 'check', align: "left"}
@@ -256,43 +258,25 @@ $(function() {
     //Request主頁面jqGrid
     function makeGrid(tarTable, tarDiv, type, colName, colModel) {
         var targetUrl = "";
-        var subSet = "";
-        var subGridModel = "";
-        if (typeof colName == 'undefined') {
+        var subGrid = "";
+        if (typeof colName === 'undefined') {
             colName = gridColName;
         }
         ;
-        if (typeof colModel == 'undefined') {
+        if (typeof colModel === 'undefined') {
             colModel = gridColModel;
         }
         ;
-        if (typeof type == 'undefined') {
+        if (typeof type === 'undefined') {
             type = '1';
         }
         switch (type) {
             case '2':
-                subSet = {
-                    'subGrid': true
-                            , 'subGridUrl': base_url + '/sendEmployeeLeaveData/' + '2'
-                };
-                subGridModel = [{
-                        name: ["Unpaid Leave"
-                                    , "Sick Leave"
-                                    , "Visit Leave"
-                                    , "Matemity Leave"
-                                    , "Marriage Leave"
-                                    , "Breavement Leave"
-                        ]
-                    }];
-                //console.log(subSet);
+                subGrid = true;
                 break;
             case '1':
             default:
-                subSet = {
-                    'subGrid': false
-                            , 'subGridUrl': ''
-                };
-                subGridMode = '';
+                subGrid = false;
                 targetUrl = base_url + '/sendAttRecordData/';
                 break;
         }
@@ -341,16 +325,8 @@ $(function() {
                         break;
                 }
             },
-            subGrid: subSet['subGrid'],
-            subGridUrl: subSet['subGridUrl'],
-            subGridModel: subGridModel,
             editurl: base_url + "/modify/"
         });
-        /*
-         console.log(tarTable.getGridParam('subGrid'));
-         console.log(tarTable.getGridParam('subGridUrl'));
-         console.log(tarTable.getGridParam('subGridModel'));
-         */
     }
 
     //展示員工出缺勤記錄Employee Leave
@@ -396,26 +372,4 @@ $(function() {
             {startColumnName: 'month', numberOfColumns: 3, titleText: 'Total'},
         ]
     });
-
-    //設定Employee Leave的字表格
-    function setSubGrid() {
-
-        var targetUrl = base_url + '/sendEmployeeLeaveData/' + '2';
-        //console.log(targetUrl);
-        $("#employeeLeaveTable").jqGrid("setGridParam", {subGrid: true});
-        $("#employeeLeaveTable").jqGrid("setGridParam", {subGridUrl: targetUrl});
-        $("#employeeLeaveTable").jqGrid("setGridParam", {subGridModel: [{
-                    name: [
-                        "Unpaid Leave"
-                                , "Sick Leave"
-                                , "Visit Leave"
-                                , "Matemity Leave"
-                                , "Marriage Leave"
-                                , "Breavement Leave"
-                    ]
-                }]
-        });
-    }
-
-
 })
