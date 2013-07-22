@@ -27,3 +27,8 @@ attrecord的sub Grid仍無法運作，計劃分開處理
 
 07192013
 11:00 => attrecord休假記錄完成，月份功能處理中
+
+07222013
+
+追加需求purchase跟inventory的report功能
+需要輸出相關表格，且需可選擇輸出欄位
