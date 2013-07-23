@@ -32,3 +32,16 @@ attrecord的sub Grid仍無法運作，計劃分開處理
 
 追加需求purchase跟inventory的report功能
 需要輸出相關表格，且需可選擇輸出欄位
+
+07232013
+月份選擇完成
+統計功能製作中
+PS：日期計數非整數
+一天上班8小時，請假1小時，該日工作天數為0.875
+days worked
+holiday
+annual
+因為與google canlendar連動，統計條件不足
+off
+other
+統計條件不明employee leave中無可參照之欄位

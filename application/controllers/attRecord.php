@@ -100,20 +100,28 @@ class AttRecord extends MY_Controller {
     public function sendEmployeeLeaveData($type = '1', $id = '0', $month = '0') {
         //取得服務資料
         $infoData = array();
-        /* if ($month == '0') {
+        //設定目標月份
+        $targetMonth = $month == 0 ? date('m') : $month;
+        $targetDate = date('Y') . '-' . $targetMonth . '-01';
+        $firstday = date('Y-m-01', strtotime($targetDate));
+        $lastday = date('Y-m-d', strtotime("$firstday +1 month -1 day"));
 
-          }; */
+        //echo $firstday."<br />".$lastday;
 
         $table = $this->tableName['linkTable']['employeeAttendance'];
         $tableID = $table . "ID";
         $sqlString = "SELECT * FROM %s %s ORDER BY %s ASC";
-        $subString = sprintf(" WHERE employeeID='%s'", $id);
-        if ($type == '2') {
-            //var_dump($this->input->get());
-            $leaveId = $this->input->get('id');
-            $subString = sprintf(" WHERE %s='%s'", $tableID, $leaveId);
-            //echo sprintf($sqlString, $table, $subString, $tableID);
-        }
+        $subString = sprintf(" WHERE employeeID='%s' AND startDay >= '%s' AND startDay <= '%s'", $id, $firstday, $lastday);
+        //echo $sqlString;
+        /*
+          if ($type == '2') {
+          //var_dump($this->input->get());
+          $leaveId = $this->input->get('id');
+          $subString = sprintf(" WHERE %s='%s' AND startDay => '%s' AND startDay <= '%s'", $tableID, $leaveId,$firstday,$lastday);
+          echo sprintf($sqlString, $table, $subString, $tableID);
+          }
+         * 
+         */
         $infoData['tableName'] = $table;
         $infoData['baseSql'] = sprintf($sqlString, $table, $subString, $tableID);
         //echo sprintf($sqlString, $table, $type, $tableID);
@@ -186,7 +194,7 @@ class AttRecord extends MY_Controller {
                         $data = $time[$val];
                         break;
                     case "dayOff":
-                        $data = $row->startDay. "<br /> to <br />" .$row->endDay . "<br />";
+                        $data = $row->startDay . "<br /> to <br />" . $row->endDay . "<br />";
                         break;
                     case "leaveType":
                         $leaveType = "";
@@ -208,18 +216,22 @@ class AttRecord extends MY_Controller {
                                 break;
                             case '6'://Bereavment Leave喪假
                                 $leaveType = 'Bereavment Leave';
-                                break;                            
+                                break;
                         }
                         $data = $leaveType;
                         break;
                     case "employmentWorkDay":
                     case "employmentDayWork":
-                    case "unpaid":
-                    case "sick":
+                        break;
+                    case "unpaid"://事假天數
+                    case "sick"://病假天數
+                    case "bl"://喪假天數
+                    case "ml"://婚、產假天數
+                        $daysCount = $this->getLeaveDaysCount($val,$row->employeeID);
+                        $data = $daysCount;
+                        break;
                     case "holiday":
                     case "annual":
-                    case "bl":
-                    case "ml":
                     case "off":
                     case "other":
                         $data = "";
@@ -264,6 +276,30 @@ class AttRecord extends MY_Controller {
 
         //包json編碼後傳送
         return $result;
+    }
+
+    //回傳特定假別(天數)
+    function getLeaveDaysCount($type='',$id=0) {
+
+        $daysCount = '';
+        $leaveType = array(
+            'sick' => '2'
+            , 'unpaid' => '1'
+            , 'bl' => '6'
+            , 'ml' => '4,5'
+        );
+
+        $sqlString = "SELECT * FROM employeeAttendance WHERE leaveType IN('%s') AND employeeID='%s'";
+        $result = $this->db->query(sprintf($sqlString, $leaveType[$type],$id));
+
+        foreach ($result->result() as $key => $val) {
+            $leaveHour = idate("H", strtotime($val->endDay)) - idate("H", strtotime($val->startDay));
+           if($leaveHour == 0){
+               $leaveHour = 1;
+           }
+            $daysCount += $leaveHour/8;
+        }
+        return $daysCount;
     }
 
     //查詢員工項目資料並回傳

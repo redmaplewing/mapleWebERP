@@ -258,7 +258,6 @@ $(function() {
     //Request主頁面jqGrid
     function makeGrid(tarTable, tarDiv, type, colName, colModel) {
         var targetUrl = "";
-        var subGrid = "";
         if (typeof colName === 'undefined') {
             colName = gridColName;
         }
@@ -328,6 +327,16 @@ $(function() {
             editurl: base_url + "/modify/"
         });
     }
+
+    //切換月份
+    $("#month").change(function() {
+        //alert($(this).val());
+        var gr = $("#attendanceTable").jqGrid('getGridParam', 'selrow');
+        if ($(this).val() !== '' && gr !== null) {
+            showEmployeeLeave({employeeID:gr,month:$(this).val()});
+        }
+
+    });
 
     //展示員工出缺勤記錄Employee Leave
     function showEmployeeLeave(param) {

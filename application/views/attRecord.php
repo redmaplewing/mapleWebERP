@@ -123,6 +123,21 @@
         <div id="employeeLeave">
             <table>
                 <tr>
+                    <td colspan="6">
+                        Month: 
+                        <select name="month" id="month">                            
+                            <option value="">====Select Month====</option>
+                            <?php
+                                $thisMonth = date("m");
+                                for($month=1;$month<=12;$month++):
+                                    $selectMonth = $month == $thisMonth?"selected":"";
+                                    echo '<option value="'.$month.'" '.$selectMonth.'>'.$month.'</option>';
+                                endfor;
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <td>Name :</td>
                     <td><div id="employeeName"></div></td>
                     <td>Gender:</td>
