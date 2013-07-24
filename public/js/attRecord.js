@@ -99,7 +99,19 @@ $(function() {
              ,data:tar*/
         })
     }
+    //假別為其它時，顯示註記視窗
+    $("#leaveType").change(function() {
+        //alert($(this).val());
+        checkLeaveType($(this).val());
+    });
 
+    function checkLeaveType(leaveType) {
+        if (leaveType === '8') {
+            $("#otherReason").show();
+        } else {
+            $("#otherReason").hide();
+        }
+    }
     //顯示表單資料
     function showFormDetail(type, ids, tar) {
         if (typeof ids == 'undefined') {
@@ -110,13 +122,15 @@ $(function() {
         }
         var receiveType = "";
         mainForm = tar.find('form');
+        //初始化otherReason的狀態
         switch (type) {
             case 'edit':
-                clearFormData(mainForm);
+                clearFormData(mainForm);                
                 mainForm.find('#oper').attr('value', 'edit');
                 mainForm.find('#id').attr('value', ids);
                 getFormData(mainForm, ids);
                 checkUser(mainForm);
+                checkLeaveType($("#leaveType").val());
                 mainForm.get(0).reset();
                 mainForm.find("#showCDate").html(mainForm.find("#cDate").val());
                 tar.dialog("open");
@@ -124,6 +138,7 @@ $(function() {
             case 'add':
             default:
                 clearFormData(mainForm);
+                checkLeaveType($("#leaveType").val());
                 mainForm.find('#oper').attr('value', 'add');
                 mainForm.find('#cDate').datepicker('setDate', new Date());//建立時間
                 mainForm.find("#showCDate").html(mainForm.find("#cDate").val());
@@ -333,7 +348,7 @@ $(function() {
         //alert($(this).val());
         var gr = $("#attendanceTable").jqGrid('getGridParam', 'selrow');
         if ($(this).val() !== '' && gr !== null) {
-            showEmployeeLeave({employeeID:gr,month:$(this).val()});
+            showEmployeeLeave({employeeID: gr, month: $(this).val()});
         }
 
     });

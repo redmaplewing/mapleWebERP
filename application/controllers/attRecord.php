@@ -77,6 +77,7 @@ class AttRecord extends MY_Controller {
             "No"
             , "employeeNo"
             , "name"
+            , "position"
             , "employmentDate"
             , "employmentWorkDay"
             , "employmentDayWork"
@@ -217,25 +218,33 @@ class AttRecord extends MY_Controller {
                             case '6'://Bereavment Leave喪假
                                 $leaveType = 'Bereavment Leave';
                                 break;
+                            case '7'://Off Leave休假
+                                $leaveType = 'Off Leave';
+                                break;
+                            case '8'://Other Leave其它原因
+                                $leaveType = $row->other;
+                                break;
                         }
                         $data = $leaveType;
                         break;
                     case "employmentWorkDay":
                     case "employmentDayWork":
+                        $data = '';
                         break;
                     case "unpaid"://事假天數
                     case "sick"://病假天數
                     case "bl"://喪假天數
                     case "ml"://婚、產假天數
-                        $daysCount = $this->getLeaveDaysCount($val,$row->employeeID);
+                    case "off"://休假
+                    case "other"://其它
+                        $daysCount = $this->getLeaveDaysCount($val, $row->employeeID);
                         $data = $daysCount;
                         break;
                     case "holiday":
                     case "annual":
-                    case "off":
-                    case "other":
                         $data = "";
                         break;
+                    /* case "other": */
                     case "checked":
                     case "approved":
                         $data = $row->$val != '0' ? $this->employee[$row->$val] : "Uncheck";
@@ -279,7 +288,7 @@ class AttRecord extends MY_Controller {
     }
 
     //回傳特定假別(天數)
-    function getLeaveDaysCount($type='',$id=0) {
+    function getLeaveDaysCount($type = '', $id = 0) {
 
         $daysCount = '';
         $leaveType = array(
@@ -287,17 +296,19 @@ class AttRecord extends MY_Controller {
             , 'unpaid' => '1'
             , 'bl' => '6'
             , 'ml' => '4,5'
+            , 'off' => '7'
+            , 'other' => '8'
         );
 
         $sqlString = "SELECT * FROM employeeAttendance WHERE leaveType IN('%s') AND employeeID='%s'";
-        $result = $this->db->query(sprintf($sqlString, $leaveType[$type],$id));
+        $result = $this->db->query(sprintf($sqlString, $leaveType[$type], $id));
 
         foreach ($result->result() as $key => $val) {
             $leaveHour = idate("H", strtotime($val->endDay)) - idate("H", strtotime($val->startDay));
-           if($leaveHour == 0){
-               $leaveHour = 1;
-           }
-            $daysCount += $leaveHour/8;
+            if ($leaveHour == 0) {
+                $leaveHour = 1;
+            }
+            $daysCount += $leaveHour / 8;
         }
         return $daysCount;
     }

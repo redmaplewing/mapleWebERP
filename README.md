@@ -45,3 +45,20 @@ annual
 off
 other
 統計條件不明employee leave中無可參照之欄位
+
+07242013
+資料表結構修改 employeeAttendance
+leaveType追加off(休假),other(其它)(僅修改欄位註解)
+other更改欄位屬性 int => varchar(200) 用於補充當休假類別為other時的原因
+
+attRecord.php(control)
+修改細部程式
+將OFF、other加入出缺勤判斷
+
+attRecord.php(View)
+更改leave type，追加off、other
+
+attrecord基本完成
+
+採購、倉儲的report center功能製作中
+PS：attrecord,purchase request,purchase order應該需要追加輸出表格的功能

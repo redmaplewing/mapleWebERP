@@ -42,6 +42,8 @@
                             4.Matemity Leave 產假
                             5.Marriage Leave 婚假
                             6.Beravement Leave 喪假
+                            7.Off Leave 休假
+                            .Other Leave 其它
                             -->
                             <option value="1">Unpaid Leave </option>
                             <option value="2">Sick Leave </option>
@@ -49,6 +51,8 @@
                             <option value="4">Matemity Leave </option>
                             <option value="5">Marriage Leave </option>
                             <option value="6">Beravement Leave </option>
+                            <option value="7">Off Leave </option>
+                            <option value="8">Other Leave </option>
                         </select>
                     </td>
                 </tr>
@@ -80,10 +84,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="4">
+                        <div id="otherReason" style="display:none">
+                            Other: <input type="text" name="other" id="other" style="width:60%;"/>
+                        </div>                        
+                    </td>
                     <td>Approved by</td>
                     <td>
                         <select name="approved" id="approved">
@@ -128,11 +133,11 @@
                         <select name="month" id="month">                            
                             <option value="">====Select Month====</option>
                             <?php
-                                $thisMonth = date("m");
-                                for($month=1;$month<=12;$month++):
-                                    $selectMonth = $month == $thisMonth?"selected":"";
-                                    echo '<option value="'.$month.'" '.$selectMonth.'>'.$month.'</option>';
-                                endfor;
+                            $thisMonth = date("m");
+                            for ($month = 1; $month <= 12; $month++):
+                                $selectMonth = $month == $thisMonth ? "selected" : "";
+                                echo '<option value="' . $month . '" ' . $selectMonth . '>' . $month . '</option>';
+                            endfor;
                             ?>
                         </select>
                     </td>
