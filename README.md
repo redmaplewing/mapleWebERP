@@ -62,3 +62,12 @@ attrecord基本完成
 
 採購、倉儲的report center功能製作中
 PS：attrecord,purchase request,purchase order應該需要追加輸出表格的功能
+
+07252013
+purchase inventory的report初步構想
+purchaseReport、inventoryReport=>僅製作列表功能
+reportCenter=>追加，依類別跟序號決定輸出內容
+1.type=>輸出類別 1.purchase , 2.inventory
+2.sn=>項目序號 ex 1.Current Price List , 2.Supplier List ...etc
+3.頁面產生時需產生表格欄位!important(需定義各列表功能所可以選擇的欄位)
+4.點選輸出後依所選擇之表格內容輸出列表，並產生excel，pdf的下載按扭

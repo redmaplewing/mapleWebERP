@@ -1,3 +1,10 @@
+<style type="text/css">
+
+    .outputBtn{
+        cursor: pointer;
+    }
+
+</style>
 <div id="mainArea">
     <!--主視窗-->
     <div id="menuLocation">
@@ -5,6 +12,28 @@
     </div>
     <br />
     <div id="purchaseReportInterface">
+        <table style='width: 100%;font-size: 16px;line-height: 20px;'>
+            <tr>
+                <td colspan='2' style='text-align:center;'>Report Center</td>
+            </tr>
+            <tr>
+                <?php foreach ($reportTool as $key => $val): ?>
+                    <td>
+                        <a href="<?php echo base_url() . 'report/1/' . $key; ?>" target='_blank'>
+                            <div class="outputBtn">
+                                <?php echo $val; ?>
+                            </div>
+                        </a>
+                    </td>
+
+                    <?php
+                    if (($key + 1) % 2 == 0) {
+                        echo "</tr><tr>";
+                    }
+                endforeach;
+                ?>
+            </tr>
+        </table>
     </div>
 </div>
 <script type="text/javascript">

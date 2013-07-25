@@ -7,6 +7,7 @@ class inventoryReport extends MY_Controller {
     var $tableName = array();//程式所使用的資料庫
     var $employee = array();//員工名單
     var $group = array();//員工權限
+    var $reportTool = array();
 
     public function __construct() {
         parent::__construct(); //繼承父類別的涵數
@@ -51,7 +52,9 @@ class inventoryReport extends MY_Controller {
         $data['active'] = $active;
         $data['employee'] = $this->employee;
         $data['group'] = $this->group;
-        $data['attRecord'] = $this->checkPermission('3', 'attRecord');
+        //$data['attRecord'] = $this->checkPermission('3', 'attRecord');
+        $data['reportTool'] = $this->reportTool;
+        var_dump($this->reportTool);
 
         //var_dump($data);//驗證輸出陣列
 
@@ -113,9 +116,37 @@ class inventoryReport extends MY_Controller {
             $group[$val->groupPermissionID] = $val->name;
         };
 
+        //設定輸出功能
+        $reportTool = array();
+        $reportTool[]['name'] = 'Current Price List';
+        $reportTool[]['typeValue'] = '1';        
+        $reportTool[]['name'] = 'Supplier List';
+        $reportTool[]['typeValue'] = '2';        
+        $reportTool[]['name'] = 'Price History of Products & Services';
+        $reportTool[]['typeValue'] = '3';        
+        $reportTool[]['name'] = 'Total Purchase Made';
+        $reportTool[]['typeValue'] = '4';        
+        $reportTool[]['name'] = 'Total Local Purchase';
+        $reportTool[]['typeValue'] = '5';        
+        $reportTool[]['name'] = 'Total Overseas Purchases';
+        $reportTool[]['typeValue'] = '6';        
+        $reportTool[]['name'] = 'Total Purchases per Product';
+        $reportTool[]['typeValue'] = '7';        
+        $reportTool[]['name'] = 'Total Purchases per Service';
+        $reportTool[]['typeValue'] = '8';        
+        $reportTool[]['name'] = 'Total Purchases Made from(supplier)';
+        $reportTool[]['typeValue'] = '9';        
+        $reportTool[]['name'] = 'Total Purchases Made for(Project)';
+        $reportTool[]['typeValue'] = '10';        
+        $reportTool[]['name'] = 'Duration of Processing Purchase Reqeust';
+        $reportTool[]['typeValue'] = '11';        
+        $reportTool[]['name'] = 'Duration of Processing Purchase Order';
+        $reportTool[]['typeValue'] = '12';             
+        
         $this->tableName = $tableName;
         $this->employee = $employee;
         $this->group = $group;
+        $this->reportTool = $reportTool;
     }
 
 }

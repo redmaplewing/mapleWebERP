@@ -7,6 +7,7 @@ class PurchaseReport extends MY_Controller {
     var $tableName = array();//程式所使用的資料庫
     var $employee = array();//員工名單
     var $group = array();//員工權限
+    var $reportTool = array();//輸出列表
 
     public function __construct() {
         parent::__construct(); //繼承父類別的涵數
@@ -51,7 +52,9 @@ class PurchaseReport extends MY_Controller {
         $data['active'] = $active;
         $data['employee'] = $this->employee;
         $data['group'] = $this->group;
-        $data['attRecord'] = $this->checkPermission('3', 'attRecord');
+        //$data['attRecord'] = $this->checkPermission('3', 'attRecord');
+        $data['reportTool'] = $this->reportTool;
+        //var_dump($this->reportTool);
 
         //var_dump($data);//驗證輸出陣列
 
@@ -112,10 +115,23 @@ class PurchaseReport extends MY_Controller {
         foreach ($dbQuery->result() as $key => $val) {
             $group[$val->groupPermissionID] = $val->name;
         };
+        $reportList = array(
+            'Current Price List','Supplier List'
+            ,'Price History of Products & Services','Total Purchase Made'
+            ,'Total Local Purchase','Total Overseas Purchase'
+            ,'Total Purchases per Product','Total Purchase per Service'
+            ,'Total Purchase Made from(supplier)','Total Purchases Made for(Project)'
+            ,'Duration of Processing Purchase Request','Duration of Processing Purchase Order'
+        );
+        $reportTool = array();
+        foreach($reportList as $key => $val){
+            $reportTool[$key] = $val;
+        }
 
         $this->tableName = $tableName;
         $this->employee = $employee;
         $this->group = $group;
+        $this->reportTool = $reportTool;
     }
 
 }
