@@ -8,6 +8,7 @@ class ReportCenter extends MY_Controller {
      * 
      * purchase Report Center's SN
      * 1.Current Price List
+     * product name,product code, unit cost, category, 
      * 2.Supplier List
      * 3.Price History of Products & Services
      * 4.Total Purchase Made

@@ -71,3 +71,6 @@ reportCenter=>追加，依類別跟序號決定輸出內容
 2.sn=>項目序號 ex 1.Current Price List , 2.Supplier List ...etc
 3.頁面產生時需產生表格欄位!important(需定義各列表功能所可以選擇的欄位)
 4.點選輸出後依所選擇之表格內容輸出列表，並產生excel，pdf的下載按扭
+
+07292013
+report center 各列表的部份請對方提供詳細規格
