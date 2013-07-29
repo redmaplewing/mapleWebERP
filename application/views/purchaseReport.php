@@ -19,7 +19,7 @@
             <tr>
                 <?php foreach ($reportTool as $key => $val): ?>
                     <td>
-                        <a href="<?php echo base_url() . 'report/1/' . $key; ?>" target='_blank'>
+                        <a href="<?php echo base_url() . 'index.php/reportCenter/index/1/' . ($key+1); ?>" target='_blank'>
                             <div class="outputBtn">
                                 <?php echo $val; ?>
                             </div>
