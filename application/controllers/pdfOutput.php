@@ -10,20 +10,20 @@ class PdfOutput extends MY_Controller {
 
     public function index() {
 //echo 'pdf output test';
-
         $this->load->library('Pdf');
 
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('Nicola Asuni');
-        $pdf->SetTitle('TCPDF Example 006');
+        $pdf->SetTitle('TCPDF Example 003');
         $pdf->SetSubject('TCPDF Tutorial');
         $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 // set default header data
-        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE . ' 006', PDF_HEADER_STRING);
+        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
 // set header and footer fonts
         $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
@@ -50,31 +50,22 @@ class PdfOutput extends MY_Controller {
 
 // ---------------------------------------------------------
 // set font
-        $pdf->SetFont('dejavusans', '', 10);
+        $pdf->SetFont('times', 'BI', 12);
 
 // add a page
         $pdf->AddPage();
 
-// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
-// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
-// create some HTML content
-        $html = '<ul>
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-</ul>';
+// set some text to print
+        $txt = <<<EOD
+1234
+EOD;
 
-// output the HTML content
-        $pdf->writeHTML($html, true, false, true, false, '');
-
-// reset pointer to the last page
-        $pdf->lastPage();
+// print a block of text using Write()
+        $pdf->Write(0, $txt, '', 0, 'C', true, 0, false, false, 0);
 
 // ---------------------------------------------------------
 //Close and output PDF document
-        $pdf->Output('example_006.pdf', 'I');
+        $pdf->Output('example_003.pdf', 'I');
 
 //============================================================+
 // END OF FILE

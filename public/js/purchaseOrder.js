@@ -186,6 +186,7 @@ $(function(){
 				$("#tabPoProcess").jqGrid("clearGridData", true);
 				$("#tabPOReceiving").jqGrid().setGridParam({url : base_url+'/sendPOReceiving/'+$("#poDetailForm").find("#id").attr('value')});
 				$("#tabPOReceiving").trigger("reloadGrid");//重置項目表單
+                                $("#outputPO").show();
 				showPurchaseOrderData($("#purchaseRequestID").val());
 				showSupplierAndItem($("#supplierID"));
 				$("#showPODetail").dialog("open");
@@ -200,17 +201,23 @@ $(function(){
 				//設定並讀取項目列表
 				$("#tabPRDetail").jqGrid().setGridParam({url : base_url+'/sendPRDetail/'+securityCode});
 				$("#tabPRDetail").trigger("reloadGrid");
-				
 				$("#oper").attr('value','add');
 				$("#cDate").datepicker('setDate', new Date());//建立時間
 				$("#showCDate").html($("#cDate").val());
 				$("#poDetailForm").find('#managerName').html(userName);//建立者資訊
 				$("#poDetailForm").find('#managerID').attr('value',userID);
 				$("#poDetailForm").get(0).reset();
+                                $("#outputPO").hide();
 				$("#showPODetail").dialog("open");
 			break;
 		}
 	};
+        
+        //輸出採購單
+        $("#outputPO").click(function(){
+            
+            
+        });
 	//發送請購單
 	$("#submit").click(function(){
 		$("#submitDate").datepicker('setDate', new Date());//建立時間
