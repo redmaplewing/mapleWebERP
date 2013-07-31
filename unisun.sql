@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: 127.0.0.1
--- 產生日期: 2013 年 07 月 15 日 15:21
+-- 產生日期: 2013 年 07 月 31 日 15:14
 -- 伺服器版本: 5.5.27
 -- PHP 版本: 5.4.7
 
@@ -33,15 +33,17 @@ CREATE TABLE IF NOT EXISTS `captcha` (
   `word` varchar(20) NOT NULL,
   PRIMARY KEY (`captcha_id`),
   KEY `word` (`word`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=412 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=452 ;
 
 --
 -- 轉存資料表中的資料 `captcha`
 --
 
 INSERT INTO `captcha` (`captcha_id`, `captcha_time`, `ip_address`, `word`) VALUES
-(410, 1373857765, '127.0.0.1', 'g818c1wgy'),
-(411, 1373872864, '127.0.0.1', 'hhh89to4s');
+(448, 1375248242, '127.0.0.1', 'm3yx42bwb'),
+(449, 1375254736, '127.0.0.1', '2oumkk6lu'),
+(450, 1375254756, '127.0.0.1', '1bwgqx8kb'),
+(451, 1375254773, '127.0.0.1', 'rkd3irek6');
 
 -- --------------------------------------------------------
 
@@ -64,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('45495ca92012e27654e445f9ed6d5a98', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.71 Safari/537.36', 1373857786, 'a:11:{s:9:"user_data";s:0:"";s:8:"username";s:3:"ad ";s:7:"account";s:2:"ad";s:7:"groupID";s:2:"14";s:10:"employeeID";s:1:"1";s:4:"lang";s:5:"en_US";s:7:"logined";b:1;s:9:"loginTime";i:1373857786;s:12:"languageType";a:2:{s:5:"en_US";s:7:"English";s:5:"zh_TW";s:19:"Chinese Traditional";}s:8:"menuType";a:6:{i:0;a:3:{s:4:"name";s:16:"Admin Management";s:2:"id";s:2:"46";s:8:"menulist";a:3:{i:0;a:3:{s:4:"name";s:16:"Admin Management";s:4:"link";s:15:"adminManagement";s:2:"id";s:2:"20";}i:1;a:3:{s:4:"name";s:16:"IT Data C ontrol";s:4:"link";s:0:"";s:2:"id";s:1:"7";}i:2;a:3:{s:4:"name";s:15:"Task Management";s:4:"link";s:7:"taskMan";s:2:"id";s:1:"8";}}}i:1;a:3:{s:4:"name";s:25:"Human Resource Management";s:2:"id";s:2:"34";s:8:"menulist";a:4:{i:0;a:3:{s:4:"name";s:25:"Human Resource Management";s:4:"link";s:9:"humanMain";s:2:"id";s:2:"18";}i:1;a:3:{s:4:"name";s:19:"Recruitment Process";s:4:"link";s:12:"recruProcess";s:2:"id";s:1:"9";}i:2;a:3:{s:4:"name";s:13:"Employee List";s:4:"link";s:8:"employee";s:2:"id";s:2:"10";}i:3;a:3:{s:4:"name";s:17:"Attendance Record";s:4:"link";s:9:"attRecord";s:2:"id";s:2:"11";}}}i:2;a:3:{s:4:"name";s:19:"Purchase Management";s:2:"id";s:2:"44";s:8:"menulist";a:4:{i:0;a:3:{s:4:"name";s:20:"InforMation Registry";s:4:"link";s:15:"pruInfoRegistry";s:2:"id";s:1:"3";}i:1;a:3:{s:4:"name";s:16:"Purchase Request";s:4:"link";s:15:"purchaseRequest";s:2:"id";s:1:"4";}i:2;a:3:{s:4:"name";s:14:"Purchase Order";s:4:"link";s:13:"purchaseOrder";s:2:"id";s:1:"5";}i:3;a:3:{s:4:"name";s:13:"Report Center";s:4:"link";s:0:"";s:2:"id";s:1:"6";}}}i:3;a:3:{s:4:"name";s:20:"Inventory Management";s:2:"id";s:2:"45";s:8:"menulist";a:4:{i:0;a:3:{s:4:"name";s:20:"Information Registry";s:4:"link";s:15:"invInfoRegistry";s:2:"id";s:2:"12";}i:1;a:3:{s:4:"name";s:25:"Material Request & Return";s:4:"link";s:10:"materialRR";s:2:"id";s:2:"13";}i:2;a:3:{s:4:"name";s:28:"Tools & Equipment Management";s:4:"link";s:9:"teManager";s:2:"id";s:2:"14";}i:3;a:3:{s:4:"name";s:13:"Report Center";s:4:"link";s:0:"";s:2:"id";s:2:"15";}}}i:4;a:3:{s:4:"name";s:18:"Drawing Management";s:2:"id";s:2:"47";s:8:"menulist";a:1:{i:0;a:3:{s:4:"name";s:18:"Drawing Management";s:4:"link";s:14:"drawManagement";s:2:"id";s:2:"17";}}}i:5;a:3:{s:4:"name";s:12:"Project List";s:2:"id";s:2:"19";s:8:"menulist";a:1:{i:0;a:3:{s:4:"name";s:12:"Project List";s:4:"link";s:4:"proj";s:2:"id";s:2:"16";}}}}s:11:"engMenuType";a:7:{i:0;s:15:"is English Name";i:46;s:16:"Admin Management";i:34;s:25:"Human Resource Management";i:44;s:19:"Purchase Management";i:45;s:20:"Inventory Management";i:47;s:18:"Drawing Management";i:19;s:12:"Project List";}}');
+('6911bab865c917a2d096f2c2bd69fe9e', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.72 Safari/537.36', 1375254786, 'a:11:{s:9:"user_data";s:0:"";s:8:"username";s:9:" Davin So";s:7:"account";s:7:"sodavin";s:7:"groupID";s:1:"6";s:10:"employeeID";s:2:"13";s:4:"lang";s:5:"en_US";s:7:"logined";b:1;s:9:"loginTime";i:1375254786;s:12:"languageType";a:2:{s:5:"en_US";s:7:"English";s:5:"zh_TW";s:19:"Chinese Traditional";}s:8:"menuType";a:5:{i:0;a:3:{s:4:"name";s:16:"Admin Management";s:2:"id";s:2:"46";s:8:"menulist";a:3:{i:0;a:3:{s:4:"name";s:16:"Admin Management";s:4:"link";s:15:"adminManagement";s:2:"id";s:2:"20";}i:1;a:3:{s:4:"name";s:16:"IT Data C ontrol";s:4:"link";s:0:"";s:2:"id";s:1:"7";}i:2;a:3:{s:4:"name";s:15:"Task Management";s:4:"link";s:7:"taskMan";s:2:"id";s:1:"8";}}}i:1;a:3:{s:4:"name";s:25:"Human Resource Management";s:2:"id";s:2:"34";s:8:"menulist";a:3:{i:0;a:3:{s:4:"name";s:25:"Human Resource Management";s:4:"link";s:9:"humanMain";s:2:"id";s:2:"18";}i:1;a:3:{s:4:"name";s:13:"Employee List";s:4:"link";s:8:"employee";s:2:"id";s:2:"10";}i:2;a:3:{s:4:"name";s:17:"Attendance Record";s:4:"link";s:9:"attRecord";s:2:"id";s:2:"11";}}}i:2;a:3:{s:4:"name";s:19:"Purchase Management";s:2:"id";s:2:"44";s:8:"menulist";a:4:{i:0;a:3:{s:4:"name";s:20:"InforMation Registry";s:4:"link";s:15:"pruInfoRegistry";s:2:"id";s:1:"3";}i:1;a:3:{s:4:"name";s:16:"Purchase Request";s:4:"link";s:15:"purchaseRequest";s:2:"id";s:1:"4";}i:2;a:3:{s:4:"name";s:14:"Purchase Order";s:4:"link";s:13:"purchaseOrder";s:2:"id";s:1:"5";}i:3;a:3:{s:4:"name";s:13:"Report Center";s:4:"link";s:14:"purchaseReport";s:2:"id";s:1:"6";}}}i:3;a:3:{s:4:"name";s:20:"Inventory Management";s:2:"id";s:2:"45";s:8:"menulist";a:4:{i:0;a:3:{s:4:"name";s:20:"Information Registry";s:4:"link";s:15:"invInfoRegistry";s:2:"id";s:2:"12";}i:1;a:3:{s:4:"name";s:25:"Material Request & Return";s:4:"link";s:10:"materialRR";s:2:"id";s:2:"13";}i:2;a:3:{s:4:"name";s:28:"Tools & Equipment Management";s:4:"link";s:9:"teManager";s:2:"id";s:2:"14";}i:3;a:3:{s:4:"name";s:13:"Report Center";s:4:"link";s:15:"inventoryReport";s:2:"id";s:2:"15";}}}i:5;a:3:{s:4:"name";s:12:"Project List";s:2:"id";s:2:"19";s:8:"menulist";a:1:{i:0;a:3:{s:4:"name";s:12:"Project List";s:4:"link";s:4:"proj";s:2:"id";s:2:"16";}}}}s:11:"engMenuType";a:7:{i:0;s:15:"is English Name";i:46;s:16:"Admin Management";i:34;s:25:"Human Resource Management";i:44;s:19:"Purchase Management";i:45;s:20:"Inventory Management";i:47;s:18:"Drawing Management";i:19;s:12:"Project List";}}');
 
 -- --------------------------------------------------------
 
@@ -150,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
   PRIMARY KEY (`employeeID`),
   KEY `emplyoeeNo` (`emplyoeeNo`),
   KEY `account` (`account`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- 轉存資料表中的資料 `employee`
@@ -158,7 +160,9 @@ CREATE TABLE IF NOT EXISTS `employee` (
 
 INSERT INTO `employee` (`employeeID`, `emplyoeeNo`, `nameFirst`, `nameLast`, `Gender`, `birthday`, `UID`, `starDate`, `endDate`, `phone`, `cellPhone`, `status`, `position`, `construction`, `interior`, `MEP`, `contactNo`, `type`, `account`, `password`, `groupID`, `enable`, `skype`, `compMobile`, `personalMobile`, `ext`, `employmentDate`, `eMail`, `location`, `age`, `cDate`, `uDate`, `managerID`) VALUES
 (1, '', 'ad', '', 1, '0000-00-00', '', '0000-00-00', '0000-00-00', '', '', '', ' engineer', '', '', '', '', 0, 'ad', '369a1204683aac5e396e327b26c05207', 14, 1, '', '', '', 0, '0000-00-00', '', 1, 29, '2013-06-21', '2013-06-24', 1),
-(8, 'engin000001', 'maple', 'redwing', 1, '2008-07-31', 'a123470555', '0000-00-00', '0000-00-00', '', '', 'Regular', ' engineer', '', '', '', '', 0, 'redmaplewing', '84d0952c08a8db4d89232467a1f574f2', 13, 1, '', '0933123223', '0900111222', 26, '2013-06-28', '', 1, 29, '2013-06-21', '2013-06-25', 1);
+(8, 'engin000001', 'maple', 'redwing', 1, '2008-07-31', 'a123470555', '0000-00-00', '0000-00-00', '', '', 'Regular', ' engineer', '', '', '', '', 0, 'redmaplewing', '84d0952c08a8db4d89232467a1f574f2', 13, 1, '', '0933123223', '0900111222', 26, '2013-06-28', '', 1, 29, '2013-06-21', '2013-06-25', 1),
+(12, ' ', ' Xi', 'Hui', 0, '0000-00-00', ' ', '0000-00-00', '0000-00-00', '', '', 'Regular', ' ', '', '', '', '', 0, 'huixi', '48fad49671378e9f808ad19eaba7f734', 4, 1, '', ' ', ' ', 0, '0000-00-00', '', 1, 0, '2013-07-31', '2013-07-31', 1),
+(13, ' ', ' Davin', 'So', 0, '0000-00-00', ' ', '0000-00-00', '0000-00-00', '', '', '', ' ', '', '', '', '', 0, 'sodavin', '4e0ef908aba3c01ef1e0b05a733bbbeb', 6, 1, '', ' ', ' ', 0, '0000-00-00', '', 1, 0, '2013-07-31', '2013-07-31', 1);
 
 -- --------------------------------------------------------
 
@@ -176,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `employeeAttendance` (
   `workingDay` int(11) NOT NULL COMMENT '本月總工時',
   `dayWorked` int(11) NOT NULL COMMENT '本月實際工時(扣除休假後)',
   `holiday` int(11) NOT NULL COMMENT '例假',
-  `other` int(11) NOT NULL COMMENT '其它(summary用)',
+  `other` varchar(200) NOT NULL COMMENT '其它(summary用)',
   `off` int(11) NOT NULL COMMENT '月休',
   `annual` int(11) NOT NULL COMMENT '支薪',
   `type` int(11) NOT NULL COMMENT '1==>Attendance Summary,2==>LeaveLevel',
@@ -185,17 +189,18 @@ CREATE TABLE IF NOT EXISTS `employeeAttendance` (
   `signCheck` int(11) NOT NULL,
   `hrDeptCheck` int(11) NOT NULL,
   `endDay` datetime NOT NULL COMMENT '休假結束日',
-  `leaveType` int(11) NOT NULL COMMENT '1.事假，2.病假，3.公出，4.產假，5.婚假，6.喪假',
+  `leaveType` int(11) NOT NULL COMMENT '1.事假，2.病假，3.公出，4.產假，5.婚假，6.喪假，7.休假，8.其它',
   PRIMARY KEY (`employeeAttendanceID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- 轉存資料表中的資料 `employeeAttendance`
 --
 
 INSERT INTO `employeeAttendance` (`employeeAttendanceID`, `employeeID`, `cDate`, `uDate`, `managerID`, `startDay`, `workingDay`, `dayWorked`, `holiday`, `other`, `off`, `annual`, `type`, `checked`, `approved`, `signCheck`, `hrDeptCheck`, `endDay`, `leaveType`) VALUES
-(1, 8, '2013-07-10', '2013-07-11', 1, '2013-07-10 17:46:00', 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, '2013-07-10 19:00:00', 2),
-(2, 8, '2013-07-11', '0000-00-00', 1, '2013-07-11 15:00:00', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '2013-07-11 18:00:00', 0);
+(1, 8, '2013-07-10', '2013-07-11', 1, '2013-07-10 17:46:00', 0, 0, 0, '0', 0, 0, 0, 1, 1, 1, 1, '2013-07-10 19:00:00', 2),
+(2, 8, '2013-07-11', '2013-07-19', 1, '2013-07-11 15:00:00', 0, 0, 0, '0', 0, 0, 0, 0, 0, 0, 0, '2013-07-11 18:00:00', 4),
+(3, 8, '2013-07-24', '0000-00-00', 1, '2013-07-24 14:57:00', 0, 0, 0, ' testing', 0, 0, 0, 0, 0, 0, 0, '2013-07-24 18:00:00', 8);
 
 -- --------------------------------------------------------
 
@@ -559,7 +564,7 @@ INSERT INTO `menu` (`menuID`, `name`, `parentID`, `link`, `enable`, `ord`, `cDat
 (3, 'InforMation Registry', 44, 'pruInfoRegistry', 1, 1, '2013-04-25 05:33:49', '2013-04-26 04:32:20'),
 (4, 'Purchase Request', 44, 'purchaseRequest', 1, 2, '2013-04-25 05:34:20', '2013-05-02 03:53:16'),
 (5, 'Purchase Order', 44, 'purchaseOrder', 1, 3, '2013-04-25 05:34:31', '2013-05-03 09:38:38'),
-(6, 'Report Center', 44, '', 1, 4, '2013-04-25 05:34:42', '2013-04-25 05:36:39'),
+(6, 'Report Center', 44, 'purchaseReport', 1, 4, '2013-04-25 05:34:42', '2013-07-24 05:30:52'),
 (7, 'IT Data C ontrol', 46, '', 1, 2, '2013-04-25 05:58:51', '2013-07-01 03:34:51'),
 (8, 'Task Management', 46, 'taskMan', 1, 3, '2013-04-25 05:59:01', '2013-07-02 10:02:18'),
 (9, 'Recruitment Process', 34, 'recruProcess', 1, 2, '2013-04-25 05:59:17', '2013-06-19 10:39:53'),
@@ -568,7 +573,7 @@ INSERT INTO `menu` (`menuID`, `name`, `parentID`, `link`, `enable`, `ord`, `cDat
 (12, 'Information Registry', 45, 'invInfoRegistry', 1, 1, '2013-04-25 06:34:20', '2013-05-07 09:30:37'),
 (13, 'Material Request & Return', 45, 'materialRR', 1, 2, '2013-04-25 06:34:35', '2013-05-07 09:30:56'),
 (14, 'Tools & Equipment Management', 45, 'teManager', 1, 3, '2013-04-25 06:34:51', '2013-05-09 04:04:24'),
-(15, 'Report Center', 45, '', 1, 4, '2013-04-25 06:34:59', '2013-04-25 06:35:49'),
+(15, 'Report Center', 45, 'inventoryReport', 1, 4, '2013-04-25 06:34:59', '2013-07-24 05:55:42'),
 (16, 'Project List', 19, 'proj', 1, 1, '2013-05-13 11:03:38', '0000-00-00 00:00:00'),
 (17, 'Drawing Management', 47, 'drawManagement', 1, 1, '2013-05-15 04:33:09', '0000-00-00 00:00:00'),
 (18, 'Human Resource Management', 34, 'humanMain', 1, 1, '2013-06-19 10:39:43', '0000-00-00 00:00:00'),
@@ -627,7 +632,7 @@ CREATE TABLE IF NOT EXISTS `modifyLog` (
   `modify` varchar(10) NOT NULL,
   `ipAddress` varchar(100) NOT NULL,
   PRIMARY KEY (`modLogID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1191 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1240 ;
 
 --
 -- 轉存資料表中的資料 `modifyLog`
@@ -1824,7 +1829,56 @@ INSERT INTO `modifyLog` (`modLogID`, `tableName`, `ManagerID`, `uDate`, `modify`
 (1187, 'systemConfig', 'ad', '2013-07-05 02:10:10', 'del', '127.0.0.1'),
 (1188, 'systemConfig', 'ad', '2013-07-05 02:12:03', 'del', '127.0.0.1'),
 (1189, 'employeeAttendance', 'ad', '2013-07-11 02:46:25', 'edit', '127.0.0.1'),
-(1190, 'employeeAttendance', 'ad', '2013-07-11 02:48:00', 'edit', '127.0.0.1');
+(1190, 'employeeAttendance', 'ad', '2013-07-11 02:48:00', 'edit', '127.0.0.1'),
+(1191, 'employeeAttendance', 'ad', '2013-07-19 11:09:21', 'edit', '127.0.0.1'),
+(1192, 'menu', 'ad', '2013-07-24 05:30:52', 'edit', '127.0.0.1'),
+(1193, 'menu', 'ad', '2013-07-24 05:55:42', 'edit', '127.0.0.1'),
+(1194, 'purchaseDetail', 'ad', '2013-07-31 01:24:42', 'edit', '127.0.0.1'),
+(1195, 'purchaseDetail', 'ad', '2013-07-31 01:24:53', 'edit', '127.0.0.1'),
+(1196, 'purchaseDetail', 'ad', '2013-07-31 01:24:53', 'edit', '127.0.0.1'),
+(1197, 'purchaseDetail', 'ad', '2013-07-31 01:24:58', 'edit', '127.0.0.1'),
+(1198, 'purchaseDetail', 'ad', '2013-07-31 01:24:58', 'edit', '127.0.0.1'),
+(1199, 'purchaseDetail', 'ad', '2013-07-31 01:24:58', 'edit', '127.0.0.1'),
+(1200, 'purchaseDetail', 'ad', '2013-07-31 01:25:03', 'edit', '127.0.0.1'),
+(1201, 'purchaseDetail', 'ad', '2013-07-31 01:25:03', 'edit', '127.0.0.1'),
+(1202, 'purchaseDetail', 'ad', '2013-07-31 01:25:03', 'edit', '127.0.0.1'),
+(1203, 'purchaseDetail', 'ad', '2013-07-31 01:25:03', 'edit', '127.0.0.1'),
+(1204, 'purchaseDetail', 'ad', '2013-07-31 01:25:12', 'edit', '127.0.0.1'),
+(1205, 'purchaseDetail', 'ad', '2013-07-31 01:25:12', 'edit', '127.0.0.1'),
+(1206, 'purchaseDetail', 'ad', '2013-07-31 01:25:12', 'edit', '127.0.0.1'),
+(1207, 'purchaseDetail', 'ad', '2013-07-31 01:25:12', 'edit', '127.0.0.1'),
+(1208, 'employee', 'ad', '2013-07-31 02:17:58', 'edit', '127.0.0.1'),
+(1209, 'recruitment', 'ad', '2013-07-31 02:17:58', 'edit', '127.0.0.1'),
+(1210, 'employee', 'ad', '2013-07-31 02:18:45', 'edit', '127.0.0.1'),
+(1211, 'recruitment', 'ad', '2013-07-31 02:18:46', 'edit', '127.0.0.1'),
+(1212, 'employee', 'ad', '2013-07-31 02:19:09', 'edit', '127.0.0.1'),
+(1213, 'recruitment', 'ad', '2013-07-31 02:19:10', 'edit', '127.0.0.1'),
+(1214, 'employee', 'ad', '2013-07-31 02:19:27', 'edit', '127.0.0.1'),
+(1215, 'recruitment', 'ad', '2013-07-31 02:19:27', 'edit', '127.0.0.1'),
+(1216, 'employee', 'ad', '2013-07-31 02:19:46', 'edit', '127.0.0.1'),
+(1217, 'recruitment', 'ad', '2013-07-31 02:19:47', 'edit', '127.0.0.1'),
+(1218, 'employee', 'ad', '2013-07-31 02:20:16', 'edit', '127.0.0.1'),
+(1219, 'recruitment', 'ad', '2013-07-31 02:20:16', 'edit', '127.0.0.1'),
+(1220, 'employee', 'ad', '2013-07-31 02:46:08', 'edit', '127.0.0.1'),
+(1221, 'recruitment', 'ad', '2013-07-31 02:46:08', 'edit', '127.0.0.1'),
+(1222, 'employee', 'ad', '2013-07-31 03:04:47', 'edit', '127.0.0.1'),
+(1223, 'recruitment', 'ad', '2013-07-31 03:04:47', 'edit', '127.0.0.1'),
+(1224, 'employee', 'ad', '2013-07-31 03:06:30', 'edit', '127.0.0.1'),
+(1225, 'recruitment', 'ad', '2013-07-31 03:06:30', 'edit', '127.0.0.1'),
+(1226, 'employee', 'ad', '2013-07-31 03:07:13', 'edit', '127.0.0.1'),
+(1227, 'recruitment', 'ad', '2013-07-31 03:07:13', 'edit', '127.0.0.1'),
+(1228, 'employee', 'ad', '2013-07-31 03:09:20', 'edit', '127.0.0.1'),
+(1229, 'recruitment', 'ad', '2013-07-31 03:09:20', 'edit', '127.0.0.1'),
+(1230, 'employee', 'ad', '2013-07-31 03:10:28', 'edit', '127.0.0.1'),
+(1231, 'recruitment', 'ad', '2013-07-31 03:10:28', 'edit', '127.0.0.1'),
+(1232, 'employee', 'ad', '2013-07-31 03:10:33', 'edit', '127.0.0.1'),
+(1233, 'recruitment', 'ad', '2013-07-31 03:10:33', 'edit', '127.0.0.1'),
+(1234, 'employee', 'ad', '2013-07-31 03:10:39', 'edit', '127.0.0.1'),
+(1235, 'recruitment', 'ad', '2013-07-31 03:10:39', 'edit', '127.0.0.1'),
+(1236, 'employee', 'ad', '2013-07-31 03:11:33', 'edit', '127.0.0.1'),
+(1237, 'employee', 'ad', '2013-07-31 03:11:38', 'edit', '127.0.0.1'),
+(1238, 'employee', 'ad', '2013-07-31 03:11:48', 'edit', '127.0.0.1'),
+(1239, 'employee', 'ad', '2013-07-31 03:12:09', 'edit', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -1983,7 +2037,7 @@ CREATE TABLE IF NOT EXISTS `purchaseDetail` (
   `processes13` date NOT NULL,
   `invoceNo` varchar(20) NOT NULL,
   PRIMARY KEY (`purchaseDetailID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=53 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=57 ;
 
 --
 -- 轉存資料表中的資料 `purchaseDetail`
@@ -2008,7 +2062,11 @@ INSERT INTO `purchaseDetail` (`purchaseDetailID`, `itemID`, `qty`, `cDate`, `uDa
 (49, 13, 20, '2013-06-12', '2013-06-12', 4, '0000-00-00', 7, 0, 'CRPUNLLVAJ1371027706884', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', 0, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', ''),
 (50, 10, 10, '2013-06-12', '2013-06-12', 4, '2013-06-12', 7, 6, 'CRPUNLLVAJ1371027706884', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', 1, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', ''),
 (51, 1, 5, '2013-06-12', '2013-06-12', 4, '2013-06-12', 7, 6, 'CRPUNLLVAJ1371027706884', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', 1, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', ''),
-(52, 1, 20, '2013-06-12', '2013-06-12', 4, '0000-00-00', 4, 0, 'A3A75NX1SY', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', 0, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '');
+(52, 1, 20, '2013-06-12', '2013-06-12', 4, '0000-00-00', 4, 0, 'A3A75NX1SY', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', 0, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', ''),
+(53, 10, 10, '2013-07-31', '2013-07-31', 1, '0000-00-00', 5, 0, 'WAK8HHJPP51375248263677', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', 0, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', ''),
+(54, 1, 3, '2013-07-31', '2013-07-31', 1, '0000-00-00', 5, 0, 'WAK8HHJPP51375248263677', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', 0, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', ''),
+(55, 14, 8, '2013-07-31', '2013-07-31', 1, '0000-00-00', 5, 0, 'WAK8HHJPP51375248263677', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', 0, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', ''),
+(56, 15, 1, '2013-07-31', '2013-07-31', 1, '0000-00-00', 5, 0, 'WAK8HHJPP51375248263677', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', 0, '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '');
 
 -- --------------------------------------------------------
 
@@ -2106,7 +2164,7 @@ CREATE TABLE IF NOT EXISTS `purchaseRequest` (
   `managerID` int(11) NOT NULL COMMENT '建立者',
   `securityCode` varchar(100) NOT NULL,
   PRIMARY KEY (`purchaseRequestID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- 轉存資料表中的資料 `purchaseRequest`
@@ -2116,7 +2174,8 @@ INSERT INTO `purchaseRequest` (`purchaseRequestID`, `purchaseRequestNo`, `status
 (1, 'PR000001', 1, '2013-05-22 05:48:29', '2013-05-22 06:21:53', '0000-00-00', '0000-00-00', 5, 0, 'as soon as possiable', 1, 'ALFFRBC3YE'),
 (2, 'PR00002', 1, '2013-05-22 05:50:07', '2013-05-28 09:56:50', '0000-00-00', '2013-05-23', 4, 4, 'whatever', 1, 'IKZLEG578W'),
 (3, 'PR000003', 0, '2013-05-22 06:00:12', '2013-06-12 09:10:46', '0000-00-00', '2013-05-23', 3, 0, '', 4, 'G9OTWURHCA'),
-(4, 'PR000004', 0, '2013-05-22 06:02:29', '2013-06-12 11:40:36', '0000-00-00', '2013-05-23', 5, 8, '', 4, 'A3A75NX1SY');
+(4, 'PR000004', 0, '2013-05-22 06:02:29', '2013-06-12 11:40:36', '0000-00-00', '2013-05-23', 5, 8, '', 4, 'A3A75NX1SY'),
+(5, 'PR000006', 0, '2013-07-31 01:25:12', '0000-00-00 00:00:00', '2013-08-10', '0000-00-00', 3, 0, '', 1, 'WAK8HHJPP51375248263677');
 
 -- --------------------------------------------------------
 
@@ -2151,14 +2210,16 @@ CREATE TABLE IF NOT EXISTS `recruitment` (
   `managerID` int(11) NOT NULL,
   `cvReceiveDate` date NOT NULL,
   PRIMARY KEY (`recruitmentID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- 轉存資料表中的資料 `recruitment`
 --
 
 INSERT INTO `recruitment` (`recruitmentID`, `requestDate`, `approvalDate`, `receiveDate`, `employeeID`, `expectSalary`, `offerSalary`, `toRequestDate`, `requesterID`, `interviewDate`, `other`, `confirmDate`, `interview1st`, `time1st`, `interviewer1st`, `interview2nd`, `time2nd`, `interviewer2nd`, `applicationMode`, `pass`, `resultConfirm`, `cDate`, `uDate`, `managerID`, `cvReceiveDate`) VALUES
-(1, '2013-06-21', '2013-06-22', '0000-00-00', 8, 40000, 45000, '0000-00-00', 1, '2013-06-22', '1234', '0000-00-00', '2013-06-23', '3hr', 1, '2013-06-26', '1hr', 2, 'internet', 1, 2, '2013-06-21', '2013-06-23', 1, '2013-06-23');
+(1, '2013-06-21', '2013-06-22', '0000-00-00', 8, 40000, 45000, '0000-00-00', 1, '2013-06-22', '1234', '0000-00-00', '2013-06-23', '3hr', 1, '2013-06-26', '1hr', 2, 'internet', 1, 2, '2013-06-21', '2013-06-23', 1, '2013-06-23'),
+(5, '2013-07-31', '0000-00-00', '0000-00-00', 12, 0, 0, '0000-00-00', 1, '2013-08-10', '', '0000-00-00', '0000-00-00', ' ', 0, '0000-00-00', ' ', 0, ' ', 1, 1, '2013-07-31', '2013-07-31', 1, '0000-00-00'),
+(6, '2013-07-31', '0000-00-00', '0000-00-00', 13, 0, 0, '0000-00-00', 0, '2013-08-10', '', '0000-00-00', '0000-00-00', ' ', 0, '0000-00-00', ' ', 0, ' ', 0, 0, '2013-07-31', '2013-07-31', 1, '0000-00-00');
 
 -- --------------------------------------------------------
 
