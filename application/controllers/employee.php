@@ -69,7 +69,8 @@
 		$infoData = array();
 		$table = $this->tableName['mainTable'];
 		$tableID = $table."ID";		
-		$sqlString = "SELECT * FROM %s WHERE location='%s' AND enable='1' ORDER BY %s ASC";
+		//$sqlString = "SELECT * FROM %s WHERE location='%s' AND enable='1' ORDER BY %s ASC";
+		$sqlString = "SELECT * FROM %s WHERE location='%s' ORDER BY %s ASC";
 		$infoData['tableName'] = $table;
 		$infoData['baseSql'] = sprintf($sqlString,$table,$type,$tableID);
 		//echo sprintf($sqlString,$table,$type,$tableID);

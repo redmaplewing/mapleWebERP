@@ -36,6 +36,7 @@
 						<td>Enable</td>
 						<td>
 							<select name="enable" id="enable">
+                                <option value="">Select Enable or Not</option>
 								<option value="1">Enable</option>
 								<option value="0">Disable</option>
 							</select>
