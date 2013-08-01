@@ -74,3 +74,8 @@ reportCenter=>追加，依類別跟序號決定輸出內容
 
 07292013
 report center 各列表的部份請對方提供詳細規格
+
+
+08012013
+pdf輸出PO 、MR完成
+gr、tm待處理

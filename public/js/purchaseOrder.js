@@ -223,7 +223,7 @@ $(function() {
         var targetID = $(this).parent().find('#id').val();
         //alert(targetID);
         window.open(localhost+'index.php/pdfOutput/index/po/'+targetID,
-                'Output Purchase Order', 'width=850,height=600');
+                'Output Purchase Order', 'width=850,height=1200');
         ev.preventDefault();
         return false;
     });

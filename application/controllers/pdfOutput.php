@@ -8,12 +8,12 @@ class PdfOutput extends MY_Controller {
     public $tableList = '';
     public $tableRemark = '';
     public $tableSign = '';
+    public $employee = '';
 
-    /* public function __construct()
-      {
-      parent::__construct();//繼承父類別的涵數
-      $this->_load();
-      } */
+    public function __construct() {
+        parent::__construct(); //繼承父類別的涵數
+        $this->_load();
+    }
 
     public function index($target, $targetID) {
 //echo 'pdf output test';
@@ -106,7 +106,24 @@ class PdfOutput extends MY_Controller {
          * 表格備註$this->tableRemark +
          * 表格簽名處$this->tableSign
          */
-        $text = $this->tableTitle . $this->tableInformation . $this->tableList . $this->tableRemark . $this->tableSign;
+        //$text = $this->tableTitle . $this->tableInformation . $this->tableList . $this->tableRemark . $this->tableSign;
+        $text = '<table>
+            <tr>
+                <td  height="50">' . $this->tableTitle . '</td>
+            </tr>
+            <tr>
+                <td height="90">' . $this->tableInformation . '</td>
+            </tr>
+            <tr>
+                <td>' . $this->tableList . '</td>
+            </tr>
+            <tr>
+                <td height="140">' . $this->tableRemark . '</td>
+            </tr>
+            <tr>
+                <td height="80">' . $this->tableSign . '</td>
+            </tr>
+        </table>';
         return $text;
     }
 
@@ -115,26 +132,43 @@ class PdfOutput extends MY_Controller {
         $sqlString = "SELECT 
             a.purchaseOrderNo,
             b.purchaseRequestNo,
-            c.projectNo,
-            d.drawingNo,
+            c.projectNo,            
             e.supplierNo,
             a.cDate,
             e.name,
             a.eDate, 
             a.type,
-            a.remark
+            a.remark,
+            b.planID, 
+            a.managerID,  
+            a.purchase, 
+            a.check, 
+            a.approved, 
+            a.purchaseOrderID 
             FROM purchaseOrder AS a 
             INNER JOIN purchaseRequest AS b 
-            INNER JOIN project As c 
-            INNER JOIN drawing AS d 
+            INNER JOIN project As c              
             INNER JOIN supplier AS e
             WHERE a.purchaseOrderID='%s'
             AND a.purchaseRequestID = b.purchaseRequestID
-            AND a.projectID = c.projectID
-            AND b.planID = d.drawingID
+            AND a.projectID = c.projectID            
             AND a.supplierID=e.supplierID";
+        /*
+         * 採購單不一定會相依圖表
+         * 移除兩句sql
+         * d.drawingNo,
+         * INNER JOIN drawing AS d
+         * AND b.planID = d.drawingID
+         */
         $Query = $this->db->query(sprintf($sqlString, $targetID));
         $purchaseqQuery = $Query->row();
+        $drawingSql = "SELECT * FROM drawing WHERE drawingID='%s'";
+        $drawingQuery = $this->db->query(sprintf($drawingSql, $purchaseqQuery->planID));
+        $drawingNo = "";
+        if ($drawingQuery->num_rows > 0) {
+            $drawingResult = $drawingQuery->row();
+            $drawingNo = $drawingResult->drawingNo;
+        }
         //echo sprintf($sqlString,$targetID);
         //var_dump($purchaseqQuery);
         //建立採購單標頭
@@ -162,7 +196,7 @@ class PdfOutput extends MY_Controller {
                 <td>Project Code:</td>
                 <td>' . $purchaseqQuery->projectNo . '</td>
                 <td>Plan No:</td>
-                <td>' . $purchaseqQuery->drawingNo . '</td>
+                <td>' . $drawingNo . '</td>
             </tr>
             <tr>
                 <td>Supplier Code:</td>
@@ -181,36 +215,110 @@ class PdfOutput extends MY_Controller {
         //設定表格列表
         $tableList = '<table border="1" style="margin-top:20px;"><tr>
             <th>No</th>
-            <th>Code</th>
-            <th>Product/Service Name</th>
+            <th width="80">Code</th>
+            <th width="100">Product/Service Name</th>
             <th>Description</th>
             <th>Category</th>
-            <th>Qty</th>
+            <th width="50">Qty</th>
             <th>UoM</th>
             <th>Unit Cost</th>
             <th>Total Amount</th>
             </tr>';
-        $tableListOption = "";
+        $tableListOption = ""; //從資料庫取出列表用
+        $detailSql = "SELECT * FROM purchaseDetail AS a
+                INNER JOIN item AS b
+                WHERE
+                a.purchaseOrderID='%s' AND
+                a.itemID = b.itemID";
+        $detailQuery = $this->db->query(sprintf($detailSql, $purchaseqQuery->purchaseOrderID));
+        if ($detailQuery->num_rows > 0) {
+            $purchaseDetail = $detailQuery->result();
+            $count = 1;
+            foreach ($purchaseDetail as $val) {
+                $tableListOption[$count] = $val;
+                $count++;
+            }
+        }
+        $orderTotalAmount = "";
         for ($optCount = 1; $optCount <= 20; $optCount++) {
+            $itemCode = ""; //產品/服務編號
+            $itemName = ""; //產品/服務名稱
+            $itemDescription = ""; //產品/服務描述
+            $itemCategory = ""; //產品/服務種類
+            $itemQty = ""; //產品/服務數量
+            $itemUoM = ""; //產品/服務單位
+            $itemUnitCost = ""; //產品/服務單位成本
+            $itemTotalAmount = ""; //產品/ 服務總成本(單位成本*數量)
+            if (isset($tableListOption[$optCount])) {
+                $itemCode = $tableListOption[$optCount]->code;
+                $itemName = $tableListOption[$optCount]->name;
+                $itemDescription = $tableListOption[$optCount]->description;
+                $itemCategory = $tableListOption[$optCount]->cotegory;
+                $itemQty = $tableListOption[$optCount]->qty;
+                $itemUoM = $tableListOption[$optCount]->UoM;
+                $itemUnitCost = $tableListOption[$optCount]->unitCost;
+                $itemTotalAmount = $tableListOption[$optCount]->qty * $tableListOption[$optCount]->unitCost;
+            }
+            //加總總價
+            $orderTotalAmount += $itemTotalAmount;
             $tableList .= '<tr>
-                <td>'.$optCount.'</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>' . $optCount . '</td>
+                <td>' . $itemCode . '</td>
+                <td>' . $itemName . '</td>
+                <td>' . $itemDescription . '</td>
+                <td>' . $itemCategory . '</td>
+                <td>' . $itemQty . '</td>
+                <td>' . $itemUoM . '</td>
+                <td>' . $itemUnitCost . '</td>
+                <td>' . $itemTotalAmount . '</td>
             </tr>';
         }
         $tableList .="</table>";
         //計算總價
-        $tableList .= '<span style="text-align:right">GRAND TOTAL:</span><br />';
+        $tableList .= '<span style="text-align:right">GRAND TOTAL: $' . $orderTotalAmount . '</span><br />';
         //設定表格備註
         $tableRemark = "Remark:<br />" . $purchaseqQuery->remark;
         //設定表格簽名處
-        $tableSign = "";
+        //填表人
+        $prepared = "";
+        if (isset($this->employee[$purchaseqQuery->managerID])) {
+            $prepared = $this->employee[$purchaseqQuery->managerID]['name'] . '(' . $this->employee[$purchaseqQuery->managerID]['position'] . ')';
+        }
+        //採購者
+        $purchase = "";
+        if (isset($this->employee[$purchaseqQuery->purchase])) {
+            $purchase = $this->employee[$purchaseqQuery->purchase]['name'] . '(' . $this->employee[$purchaseqQuery->purchase]['position'] . ')';
+        }
+        //核表人
+        $check = "";
+        if (isset($this->employee[$purchaseqQuery->check])) {
+            $check = $this->employee[$purchaseqQuery->check]['name'] . '(' . $this->employee[$purchaseqQuery->check]['position'] . ')';
+        }
+        //負責人
+        $approved = "";
+        if (isset($this->employee[$purchaseqQuery->approved])) {
+            $approved = $this->employee[$purchaseqQuery->approved]['name'] . '(' . $this->employee[$purchaseqQuery->approved]['position'] . ')';
+        }
+        $tableSign = '<table border="1" style="text-align:center">
+            <tr>
+            <td height="100">
+                Prepared by:<br />
+                ' . $prepared . '
+            </td>
+            <td>
+                To be Purchased by:<br />
+                ' . $purchase . '
+            </td>
+            <td>
+                Checked by:<br />
+                ' . $check . '
+            </td>
+            <td>
+                Approved by:<br />
+                ' . $approved . '
+            </td>
+            </tr>
+        </table>';
         $this->tableTitle = $tableTitle; //設定表頭
         $this->tableInformation = $tableInformation; //設定表格資訊
         $this->tableList = $tableList; //設定表格列表
@@ -220,7 +328,180 @@ class PdfOutput extends MY_Controller {
 
     //取得調貨單資料Material Request
     private function getMRData($targetID) {
-        
+        $sqlString = "SELECT 
+            a.materialRequestNo
+            ,b.projectNo
+            ,b.name
+            ,b.clientName
+            ,a.planID
+            ,a.cDate
+            ,a.eDate
+            ,a.materialRequestID
+            ,a.remark
+            ,a.managerID
+            ,a.checked
+            ,a.approve
+            FROM materialRequest AS a 
+            INNER JOIN project As b              
+            WHERE a.materialRequestID='%s'
+            AND a.projectID = b.projectID";
+
+        /*
+         * 採購單不一定會相依圖表
+         * 移除兩句sql
+         * d.drawingNo,
+         * INNER JOIN drawing AS d
+         * AND b.planID = d.drawingID
+         */
+        $Query = $this->db->query(sprintf($sqlString, $targetID));
+        $materialQuery = $Query->row();
+        //取得圖表
+        $drawingSql = "SELECT * FROM drawing WHERE drawingID='%s'";
+        $drawingQuery = $this->db->query(sprintf($drawingSql, $materialQuery->planID));
+        $drawingNo = "";
+        if ($drawingQuery->num_rows > 0) {
+            $drawingResult = $drawingQuery->row();
+            $drawingNo = $drawingResult->drawingNo;
+        }
+
+        //echo sprintf($sqlString,$targetID);
+        //var_dump($purchaseqQuery);
+        //建立採購單標頭
+        $tableTitle = '<H1 style="text-align:center">MATERIAL REQUEST SLIP</H1>';
+
+        //建立表格資訊
+        //取得pr資料
+        $tableInformation = '';
+        $tableInformation = '<br /><table style="width:640px;">
+            <tr>
+                <td width="120">M.R. No:</td>
+                <td width="200">' . $materialQuery->materialRequestNo . '</td>
+                <td width="120">Plan No:</td>
+                <td width="200">' . $drawingNo . '</td>
+            </tr>
+            <tr>
+                <td>Project Code:</td>
+                <td>' . $materialQuery->projectNo . '</td>
+                <td>Creation Date</td>
+                <td>' . $materialQuery->cDate . '</td>
+            </tr>
+            <tr>
+                <td>Project Name:</td>
+                <td>' . $materialQuery->name . '</td>
+                <td>Expected Date:</td>
+                <td>' . $materialQuery->eDate . '</td>
+            </tr>
+            <tr>
+                <td>Customer Name:</td>
+                <td>' . $materialQuery->clientName . '</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>';
+
+        //設定表格列表
+        $tableList = '<table border="1" style="margin-top:20px;"><tr>
+            <th>No</th>
+            <th width="80">Code</th>
+            <th width="100">Product/Service Name</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th width="50">Qty</th>
+            <th>UoM</th>
+            <th>Unit Cost</th>
+            <th>Total Amount</th>
+            </tr>';
+        $tableListOption = ""; //從資料庫取出列表用
+        $detailSql = "SELECT * FROM requestDetail AS a
+                INNER JOIN item AS b
+                WHERE
+                a.materialRequestID='%s' AND
+                a.itemID = b.itemID";
+        $detailQuery = $this->db->query(sprintf($detailSql, $materialQuery->materialRequestID));
+        if ($detailQuery->num_rows > 0) {
+            $requestDetail = $detailQuery->result();
+            $count = 1;
+            foreach ($requestDetail as $val) {
+                $tableListOption[$count] = $val;
+                $count++;
+            }
+        }
+        $orderTotalAmount = "";
+        for ($optCount = 1; $optCount <= 20; $optCount++) {
+            $itemCode = ""; //產品/服務編號
+            $itemName = ""; //產品/服務名稱
+            $itemDescription = ""; //產品/服務描述
+            $itemCategory = ""; //產品/服務種類
+            $itemQty = ""; //產品/服務數量
+            $itemUoM = ""; //產品/服務單位
+            $itemUnitCost = ""; //產品/服務單位成本
+            $itemTotalAmount = ""; //產品/ 服務總成本(單位成本*數量)
+            if (isset($tableListOption[$optCount])) {
+                $itemCode = $tableListOption[$optCount]->code;
+                $itemName = $tableListOption[$optCount]->name;
+                $itemDescription = $tableListOption[$optCount]->description;
+                $itemCategory = $tableListOption[$optCount]->cotegory;
+                $itemQty = $tableListOption[$optCount]->qty;
+                $itemUoM = $tableListOption[$optCount]->UoM;
+                $itemUnitCost = $tableListOption[$optCount]->unitCost;
+                $itemTotalAmount = $tableListOption[$optCount]->qty * $tableListOption[$optCount]->unitCost;
+            }
+            //加總總價
+            $orderTotalAmount += $itemTotalAmount;
+            $tableList .= '<tr>
+                <td>' . $optCount . '</td>
+                <td>' . $itemCode . '</td>
+                <td>' . $itemName . '</td>
+                <td>' . $itemDescription . '</td>
+                <td>' . $itemCategory . '</td>
+                <td>' . $itemQty . '</td>
+                <td>' . $itemUoM . '</td>
+                <td>' . $itemUnitCost . '</td>
+                <td>' . $itemTotalAmount . '</td>
+            </tr>';
+        }
+        $tableList .="</table>";
+        //計算總價
+        $tableList .= '<span style="text-align:right">GRAND TOTAL: $' . $orderTotalAmount . '</span><br />';
+        //設定表格備註
+        $tableRemark = "Remark:<br />" . $materialQuery->remark;
+        //設定表格簽名處
+        //填表人
+        $request = "";
+        if (isset($this->employee[$materialQuery->managerID])) {
+            $request = $this->employee[$materialQuery->managerID]['name'] . '(' . $this->employee[$materialQuery->managerID]['position'] . ')';
+        }
+        //核表人
+        $check = "";
+        if (isset($this->employee[$materialQuery->checked])) {
+            $check = $this->employee[$materialQuery->checked]['name'] . '(' . $this->employee[$materialQuery->checked]['position'] . ')';
+        }
+        //負責人
+        $approved = "";
+        if (isset($this->employee[$materialQuery->approve])) {
+            $approved = $this->employee[$materialQuery->approve]['name'] . '(' . $this->employee[$materialQuery->approve]['position'] . ')';
+        }
+        $tableSign = '<table border="1" style="text-align:center">
+            <tr>
+            <td height="100">
+                Requested by:<br />
+                ' . $request . '
+            </td>
+            <td>
+                Checked by:<br />
+                ' . $check . '
+            </td>
+            <td>
+                Approved by:<br />
+                ' . $approved . '
+            </td>
+            </tr>
+        </table>';
+        $this->tableTitle = $tableTitle; //設定表頭
+        $this->tableInformation = $tableInformation; //設定表格資訊
+        $this->tableList = $tableList; //設定表格列表
+        $this->tableRemark = $tableRemark; //設定表格備註
+        $this->tableSign = $tableSign; //設定表格簽名
     }
 
     //取得退貨單資料Goods Return
@@ -228,14 +509,21 @@ class PdfOutput extends MY_Controller {
         
     }
 
-    /* 取得維護單資料
-     * Request for Repair維修
-     * Request for Calibration校準
-     * Request for Disposal處置(出售)
-     */
-
+    // 取得維護單資料,Request for Repair維修,Request for Calibration校準,Request for Disposal處置(出售)
     private function getTMRData($targetID) {
         
+    }
+
+    private function _load() {
+        $sqlString = "SELECT * FROM employee WHERE enable='1'";
+        $query = $this->db->query($sqlString);
+        $queryResult = $query->result();
+        $employee = array();
+        foreach ($queryResult as $val) {
+            $employee[$val->employeeID]['name'] = $val->nameLast . " " . $val->nameFirst;
+            $employee[$val->employeeID]['position'] = $val->position;
+        }
+        $this->employee = $employee;
     }
 
 }
