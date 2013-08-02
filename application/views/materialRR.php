@@ -321,6 +321,8 @@
 			<input type="hidden" name="id" id="id"/>
 			<input type="submit" id="save" value="Save"/>
 			<input type="reset" id="save" value="Cancel"/>
+            <input type="button" id="printGR" name="printGR" value="PRINT"/>
+			<input type="button" id="submitGR" name="submitGR" value="Submit"/>
 		</div>
 		
 		</form>

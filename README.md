@@ -79,3 +79,6 @@ report center 各列表的部份請對方提供詳細規格
 08012013
 pdf輸出PO 、MR完成
 gr、tm待處理
+
+08022013
+pdf輸出GR'TM完成

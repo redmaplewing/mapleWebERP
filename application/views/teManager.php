@@ -173,7 +173,7 @@
 			<input type="hidden" name="type" id="type" value="1"/>
 			<input type="submit" id="save" value="Save"/>
 			<input type="reset" id="cancel" value="Cancel"/>
-			<input type="button" id="print" value="PRINT"/>
+			<input type="button" id="printRR" value="PRINT"/>
 			<input type="button" id="submit" name="submit" value="Submit" class="submit"/>
 		</div>		
 		</form>
@@ -348,7 +348,7 @@
 			<input type="hidden" name="type" id="type" value="2"/>
 			<input type="submit" id="save" value="Save"/>
 			<input type="reset" id="cancel" value="Cancel"/>
-			<input type="button" id="print" value="PRINT"/>
+			<input type="button" id="printRC" value="PRINT"/>
 			<input type="button" id="submit" name="submit" value="Submit" class="submit"/>
 		</div>		
 		</form>
@@ -486,7 +486,7 @@
 			<input type="hidden" name="type" id="type" value="3"/>
 			<input type="submit" id="save" value="Save"/>
 			<input type="reset" id="cancel" value="Cancel"/>
-			<input type="button" id="print" value="PRINT"/>
+			<input type="button" id="printRD" value="PRINT"/>
 			<input type="button" id="submit" name="submit" value="Submit" class="submit"/>
 		</div>		
 		</form>

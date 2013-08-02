@@ -218,7 +218,19 @@ $(function() {
         var targetID = $(this).parent().find('#id').val();
         //alert(targetID);
         window.open(localhost + 'index.php/pdfOutput/index/mr/' + targetID,
-                'Output Purchase Order', 'width=850,height=1200');
+                'Output Material Request', 'width=850,height=1200');
+        ev.preventDefault();
+        return false;
+    });
+
+    //輸出採購單
+    $("#printGR").click(function() {
+        //alert('click');
+        //打開pdf輸出視窗
+        var targetID = $(this).parent().find('#id').val();
+        //alert(targetID);
+        window.open(localhost + 'index.php/pdfOutput/index/gr/' + targetID,
+                'Output Goods Return', 'width=850,height=1200');
         ev.preventDefault();
         return false;
     });
