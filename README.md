@@ -83,3 +83,5 @@ gr、tm待處理
 08022013
 pdf輸出GR'TM完成
 phpmail匯入完成
+部份程式區部調掉(當專案刪除時造成的資料錯亂)
+unisun.fusionmedia.com.tw中關閉Purchase Report Center,Inventory Report Centor(功能未完成，先刪除頁面連結)
