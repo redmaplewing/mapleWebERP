@@ -213,7 +213,7 @@ class PdfOutput extends MY_Controller {
         </table>';
 
         //設定表格列表
-        $tableList = '<table border="1" style="margin-top:20px;"><tr>
+        $tableList = '<table border="1" style="font-size:10px;"><tr>
             <th>No</th>
             <th width="80">Code</th>
             <th width="100">Product/Service Name</th>
@@ -400,7 +400,7 @@ class PdfOutput extends MY_Controller {
         </table>';
 
         //設定表格列表
-        $tableList = '<table border="1" style="margin-top:20px;"><tr>
+        $tableList = '<table border="1" style="font-size:10px;"><tr>
             <th>No</th>
             <th width="80">Code</th>
             <th width="100">Product/Service Name</th>
@@ -568,7 +568,7 @@ class PdfOutput extends MY_Controller {
         </table>';
 
         //設定表格列表
-        $tableList = '<table border="1" style="margin-top:20px;"><tr>
+        $tableList = '<table border="1" style="font-size:10px;"><tr>
             <th>No</th>
             <th width="80">Code</th>
             <th width="100">Product</th>
@@ -745,7 +745,7 @@ class PdfOutput extends MY_Controller {
         </table>';
 
         //設定表格列表
-        $tableList = '<table border="1" style="margin-top:20px;"><tr>
+        $tableList = '<table border="1" style="font-size:10px;"><tr>
             <th>No</th>
             <th width="80">Code</th>
             <th width="100">Tools & Equip. Name</th>

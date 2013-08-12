@@ -97,7 +97,9 @@
 							</td>
 							<td colspan="2" style="width:50%">
 							Attachment<br />
-							<textarea name="attachment" id="attachment" cols="30" rows="10"></textarea>
+                            <img src="" style="width:320px;margin-left:5px;" alt=""/>
+                            <input type="file" id="attachment" name="attachment" />
+							<!--<textarea name="attachment" id="attachment" cols="30" rows="10"></textarea>-->
 							</td>
 						</tr>					
 					</table>

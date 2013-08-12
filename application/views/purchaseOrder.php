@@ -229,7 +229,15 @@
                         <td></td>
                         <td></td>
                         <td>To be Delivered by</td>
-                        <td><input type="text" name="deliveredMan"/></td>
+                        <td>
+                            <input type="text" name="deliveredMan"/>
+                            <select name="deliveredMan" id="check">
+                                <option value="">----Select Employee----</option>
+                                <?php foreach ($employee as $key => $val): ?>
+                                    <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td></td>
