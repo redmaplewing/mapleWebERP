@@ -68,7 +68,9 @@
                         <select name="supplierID" id="supplierID" disabled>
                             <option value="">----Select Supplier----</option>
                             <?php foreach ($supplier as $key => $val): ?>
-                                <option value="<?php echo $key; ?>" supplierName="<?php echo $val['name']; ?>"><?php echo $val['no']; ?></option>
+                                <option value="<?php echo $key; ?>" supplierName="<?php echo $val['name']; ?>" payment="<?php echo $val['payment'];?>">
+                                        <?php echo $val['no']; ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </td>
@@ -135,7 +137,7 @@
                             <tr>
                                 <td>Prepared by</td>
                                 <td>
-                                    <div id="managerName"></div>
+                                    <div id="managerName" class="showManager"></div>
                                     <input type="hidden" name="managerID" id="managerID"/>
                                 </td>
                             </tr>
@@ -223,14 +225,13 @@
                             </select>
                         </td>
                         <td>Prepared by</td>
-                        <td><input type="text" name="prepared" /></td>
+                        <td><div class="showManager"></div></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
                         <td>To be Delivered by</td>
                         <td>
-                            <input type="text" name="deliveredMan"/>
                             <select name="deliveredMan" id="check">
                                 <option value="">----Select Employee----</option>
                                 <?php foreach ($employee as $key => $val): ?>
@@ -243,13 +244,27 @@
                         <td></td>
                         <td></td>
                         <td>Received by</td>
-                        <td><input type="text" name="received" /></td>
+                        <td>
+                            <select name="received" id="received">
+                                <option value="">----Select Employee----</option>
+                                <?php foreach ($employee as $key => $val): ?>
+                                    <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
                         <td>Inspected by</td>
-                        <td><input type="text" name="inspected" /></td>
+                        <td>
+                            <select name="inspected" id="inspected">
+                                <option value="">----Select Employee----</option>
+                                <?php foreach ($employee as $key => $val): ?>
+                                    <option value="<?php echo $key; ?>"><?php echo $val; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
                     </tr>
                 </table>
             </form>
@@ -259,7 +274,7 @@
                 <table>
                     <tr>
                         <td>Payment Term Agreement</td>
-                        <td><input type="text" name="supplierCode" /></td>
+                        <td><input type="text" name="payment" id="payment"/></td>
                     </tr>
                     <tr>
                         <td>Payment Date</td>

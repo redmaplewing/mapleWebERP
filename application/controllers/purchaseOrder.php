@@ -570,6 +570,7 @@ class PurchaseOrder extends MY_Controller {
             $supplier[$val->supplierID]['name'] = $val->name;
             $supplier[$val->supplierID]['no'] = $val->supplierNo;
             $supplier[$val->supplierID]['status'] = $val->status;
+            $supplier[$val->supplierID]['payment'] = $val->payment;
         }
 
         //取得成員資料

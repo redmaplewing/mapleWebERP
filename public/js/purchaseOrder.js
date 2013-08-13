@@ -63,7 +63,9 @@ $(function() {
         $("#tabPoDetail").jqGrid().setGridParam({url: dataUrl});//依識別碼取得pr項目列表
         $("#tabPoDetail").trigger("reloadGrid");//重置項目表單
         var supplierName = target.find(":selected").attr('supplierName');
+        var supplierPayment = target.find(":selected").attr('payment');
         $("#supplierName").val(supplierName);
+        $("#payment").val(supplierPayment);
     }
 
     //新增、編輯請購單
@@ -189,6 +191,7 @@ $(function() {
                 $("#tabPoProcess").jqGrid("clearGridData", true);
                 $("#tabPOReceiving").jqGrid().setGridParam({url: base_url + '/sendPOReceiving/' + $("#poDetailForm").find("#id").attr('value')});
                 $("#tabPOReceiving").trigger("reloadGrid");//重置項目表單
+                $("#poDetailForm").find('.showManager').html(userName);//建立者資訊
                 $("#outputPO").show();
                 showPurchaseOrderData($("#purchaseRequestID").val());
                 showSupplierAndItem($("#supplierID"));
@@ -207,7 +210,7 @@ $(function() {
                 $("#oper").attr('value', 'add');
                 $("#cDate").datepicker('setDate', new Date());//建立時間
                 $("#showCDate").html($("#cDate").val());
-                $("#poDetailForm").find('#managerName').html(userName);//建立者資訊
+                $("#poDetailForm").find('.showManager').html(userName);//建立者資訊
                 $("#poDetailForm").find('#managerID').attr('value', userID);
                 $("#poDetailForm").get(0).reset();
                 $("#outputPO").hide();

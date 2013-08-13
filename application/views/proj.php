@@ -79,7 +79,14 @@
 								<td>Inquiry No</td>
 								<td><input type="text" name="inquiryNo" id="inquiryNo"/></td>
 								<td>Negotiating Person/Team</td>
-								<td><input type="text" name="negotiating" id="negotiating"/></td>
+								<td>
+                                    <select name="negotiating" id="negotiating">
+                                        <option value="">----Select Employee----</option>
+                                        <?php foreach($employee as $key => $val):?>
+                                            <option value="<?php echo $key;?>"><?php echo $val;?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </td>
 							</tr>
 							<tr>
 								<td>Client Name</td>
