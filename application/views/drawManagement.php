@@ -11,7 +11,7 @@
 <!--Repair Request浮動視窗-->
 	<div id="showModifyDrawing" title="Drawing Detail">
 		<div id="drawingMode"></div>
-		<form action="<?php echo base_url().$menuInfo['link']."/modify"?>" method="post" id="drawingForm" name="drawingForm"  class="customForm">
+		<form action="<?php echo base_url().$menuInfo['link']."/modify"?>" method="post" id="drawingForm" name="drawingForm"  class="customForm" enctype="multipart/form-data">
 		<table style="width:100%;">
 			<tr>
 				<td style="width:15%">Drawing No.</td>
@@ -77,7 +77,11 @@
 			</tr>			
 			<tr>
 				<td>PDF Link</td>
-				<td>http://<input type="text" name="pdfLink" id="pdfLink" style="width:75%"/></td>
+				<td>
+                    <!--http://<input type="text" name="pdfLink" id="pdfLink" style="width:75%"/>-->
+                    <a href="" style="display:none;">download</a>
+                    <input type="file" id="pdfLink" name="pdfLink"/>
+                </td>
 				<td>Check By</td>
 				<td>
 					<select name="check" id="check">
@@ -90,7 +94,11 @@
 			</tr>
 			<tr>
 				<td>Autocad Link</td>
-				<td>http://<input type="text" name="pdfLink" id="pdfLink" style="width:75%"/></td>
+				<td>
+                    <!--http://<input type="text" name="pdfLink" id="pdfLink" style="width:75%"/>-->
+                    <a href="" style="display:none;">download</a>
+                    <input type="file" id="autocadLink" name="autocadLink"/>
+                </td>
 				<td>Approved By</td>
 				<td>
 					<select name="approved" id="approved">

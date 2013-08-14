@@ -159,10 +159,11 @@ $(function(){
 			//,beforeSend://驗證資料
 			,success:function(e){
 				obj = e;
+                                //console.log(obj);
 				var form = tar;
 				//設定功能的slider
 				form.find('.ui-slider').each(function(){
-					textBox = $(this).prev('input');
+					textBox = $(this).prev('input');                                        
 					if(obj[textBox.attr('name')] != 'undefined'){
 						$(this).slider('value',obj[textBox.attr('name')]);
 					};
@@ -170,6 +171,12 @@ $(function(){
 
 				form.find('input').each(function(){
 					//alert($(this).attr('name'));
+                                        if($(this).attr('type') == 'file' && obj[$(this).attr('name')] !== ''){
+                                                //console.log(obj[$(this).attr('name')]);
+                                                var link = base_url+'download.php?filename='+obj[$(this).attr('name')];
+						$(this).prev('a').attr('href',link);
+						$(this).prev('a').show();
+					};
 					if(obj[$(this).attr('name')] != 'undefined'){
 						$(this).attr('value',obj[$(this).attr('name')]);
 					}
